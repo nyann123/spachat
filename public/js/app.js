@@ -97496,13 +97496,13 @@ if (token) {
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: 'd525c0695570725833ac',
   cluster: 'mt1',
   forceTLS: true
 });
-var channel = laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"].channel('my-channel');
+var channel = Echo.channel('my-channel');
 channel.listen('my-event', function (data) {
   alert(JSON.stringify(data));
 });
