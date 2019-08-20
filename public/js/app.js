@@ -1047,7 +1047,7 @@ function makeInlineSvgAbstract(params) {
       'data-icon': iconName,
       'class': attrClass,
       'role': extra.attributes.role || 'img',
-      'xmlns': 'https://www.w3.org/2000/svg',
+      'xmlns': 'http://www.w3.org/2000/svg',
       'viewBox': "0 0 ".concat(width, " ").concat(height)
     })
   };
@@ -10659,7 +10659,7 @@ function encode(val) {
 /**
  * Build a URL by appending params to the end
  *
- * @param {string} url The base of the url (e.g., https://www.google.com)
+ * @param {string} url The base of the url (e.g., http://www.google.com)
  * @param {object} [params] The params to be appended
  * @returns {string} The formatted url
  */
@@ -10867,7 +10867,7 @@ module.exports = (
 
       urlParsingNode.setAttribute('href', href);
 
-      // urlParsingNode provides the UrlUtils interface - https://url.spec.whatwg.org/#urlutils
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
       return {
         href: urlParsingNode.href,
         protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
@@ -16340,7 +16340,7 @@ exports.push([module.i, ".modal.modal-overlay[data-v-53ab54d2] {\n  display: fle
 /***/ (function(module, exports) {
 
 /*
-	MIT License https://www.opensource.org/licenses/mit-license.php
+	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
 // css base code, injected by the css-loader
@@ -17136,13 +17136,13 @@ var i,
 
 	// Regular expressions
 
-	// https://www.w3.org/TR/css3-selectors/#whitespace
+	// http://www.w3.org/TR/css3-selectors/#whitespace
 	whitespace = "[\\x20\\t\\r\\n\\f]",
 
-	// https://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
+	// http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
 	identifier = "(?:\\\\.|[\\w-]|[^\0-\\xa0])+",
 
-	// Attribute selectors: https://www.w3.org/TR/selectors/#attribute-selectors
+	// Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
 	attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
 		// Operator (capture 2)
 		"*([*^$|!~]?=)" + whitespace +
@@ -17199,7 +17199,7 @@ var i,
 	rsibling = /[+~]/,
 
 	// CSS escapes
-	// https://www.w3.org/TR/CSS21/syndata.html#escaped-characters
+	// http://www.w3.org/TR/CSS21/syndata.html#escaped-characters
 	runescape = new RegExp( "\\\\([\\da-f]{1,6}" + whitespace + "?|(" + whitespace + ")|.)", "ig" ),
 	funescape = function( _, escaped, escapedWhitespace ) {
 		var high = "0x" + escaped - 0x10000;
@@ -17841,7 +17841,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			}
 
 			// Webkit/Opera - :checked should return selected option elements
-			// https://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
+			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			// IE8 throws error here and will not see later tests
 			if ( !el.querySelectorAll(":checked").length ) {
 				rbuggyQSA.push(":checked");
@@ -18451,7 +18451,7 @@ Expr = Sizzle.selectors = {
 
 		"PSEUDO": function( pseudo, argument ) {
 			// pseudo-class names are case-insensitive
-			// https://www.w3.org/TR/selectors/#pseudo-classes
+			// http://www.w3.org/TR/selectors/#pseudo-classes
 			// Prioritize by case sensitivity in case custom pseudos are added with uppercase letters
 			// Remember that setFilters inherits from pseudos
 			var args,
@@ -18538,7 +18538,7 @@ Expr = Sizzle.selectors = {
 		// or beginning with the identifier C immediately followed by "-".
 		// The matching of C against the element's language value is performed case-insensitively.
 		// The identifier C does not have to be a valid language name."
-		// https://www.w3.org/TR/selectors/#lang-pseudo
+		// http://www.w3.org/TR/selectors/#lang-pseudo
 		"lang": markFunction( function( lang ) {
 			// lang value must be a valid identifier
 			if ( !ridentifier.test(lang || "") ) {
@@ -18580,7 +18580,7 @@ Expr = Sizzle.selectors = {
 
 		"checked": function( elem ) {
 			// In CSS3, :checked should return both checked and selected elements
-			// https://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
+			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			var nodeName = elem.nodeName.toLowerCase();
 			return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.selected);
 		},
@@ -18597,7 +18597,7 @@ Expr = Sizzle.selectors = {
 
 		// Contents
 		"empty": function( elem ) {
-			// https://www.w3.org/TR/selectors/#empty-pseudo
+			// http://www.w3.org/TR/selectors/#empty-pseudo
 			// :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity ref: 5),
 			//   but not by others (comment: 8; processing instruction: 7; etc.)
 			// nodeType < 6 works because attributes (2) do not appear as children
@@ -24247,7 +24247,7 @@ jQuery.fx.speeds = {
 
 
 // Based off of the plugin by Clint Helfers, with permission.
-// https://web.archive.org/web/20100324014747/https://blindsignals.com/index.php/2009/07/jquery-delay/
+// https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
 jQuery.fn.delay = function( time, type ) {
 	time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 	type = type || "fx";
@@ -24472,7 +24472,7 @@ jQuery.extend( {
 				// Support: IE <=9 - 11 only
 				// elem.tabIndex doesn't always return the
 				// correct value when it hasn't been explicitly set
-				// https://web.archive.org/web/20141116233347/https://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
+				// https://web.archive.org/web/20141116233347/http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
 				// Use proper attribute retrieval(#12072)
 				var tabindex = jQuery.find.attr( elem, "tabindex" );
 
@@ -25116,7 +25116,7 @@ jQuery.fn.extend( {
 //
 // Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
 // focus(in | out) events fire after focus & blur events,
-// which is spec violation - https://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
+// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
 // Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
 if ( !support.focusin ) {
 	jQuery.each( { focus: "focusin", blur: "focusout" }, function( orig, fix ) {
@@ -25831,7 +25831,7 @@ jQuery.extend( {
 
 			// Support: IE <=8 - 11, Edge 12 - 15
 			// IE throws exception on accessing the href property if url is malformed,
-			// e.g. https://example.com:80x/
+			// e.g. http://example.com:80x/
 			try {
 				urlAnchor.href = s.url;
 
@@ -28425,7 +28425,7 @@ var Echo = function () {
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
  * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <https://underscorejs.org/LICENSE>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 ;(function() {
@@ -28569,7 +28569,7 @@ var Echo = function () {
 
   /**
    * Used to match `RegExp`
-   * [syntax characters](https://ecma-international.org/ecma-262/7.0/#sec-patterns).
+   * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
    */
   var reRegExpChar = /[\\^$.*+?()[\]{}|]/g,
       reHasRegExpChar = RegExp(reRegExpChar.source);
@@ -28592,7 +28592,7 @@ var Echo = function () {
 
   /**
    * Used to match
-   * [ES template delimiters](https://ecma-international.org/ecma-262/7.0/#sec-template-literal-lexical-components).
+   * [ES template delimiters](http://ecma-international.org/ecma-262/7.0/#sec-template-literal-lexical-components).
    */
   var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
@@ -28694,7 +28694,7 @@ var Echo = function () {
     rsEmoji
   ].join('|'), 'g');
 
-  /** Used to detect strings with [zero-width joiners or code points from the astral planes](https://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+  /** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
   var reHasUnicode = RegExp('[' + rsZWJ + rsAstralRange  + rsComboRange + rsVarRange + ']');
 
   /** Used to detect strings that need a more robust regexp to match words. */
@@ -29864,7 +29864,7 @@ var Echo = function () {
 
     /**
      * Used to resolve the
-     * [`toStringTag`](https://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
      * of values.
      */
     var nativeObjectToString = objectProto.toString;
@@ -30882,7 +30882,7 @@ var Echo = function () {
 
     /**
      * Assigns `value` to `key` of `object` if the existing value is not equivalent
-     * using [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * @private
@@ -33404,7 +33404,7 @@ var Echo = function () {
     function createCtor(Ctor) {
       return function() {
         // Use a `switch` statement to work with class constructors. See
-        // https://ecma-international.org/ecma-262/7.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
+        // http://ecma-international.org/ecma-262/7.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
         // for more details.
         var args = arguments;
         switch (args.length) {
@@ -34140,7 +34140,7 @@ var Echo = function () {
         case regexpTag:
         case stringTag:
           // Coerce regexes to strings and treat strings, primitives and objects,
-          // as equal. See https://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
+          // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
           // for more details.
           return object == (other + '');
 
@@ -34928,7 +34928,7 @@ var Echo = function () {
 
     /**
      * This function is like
-     * [`Object.keys`](https://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+     * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
      * except that it includes inherited enumerable properties.
      *
      * @private
@@ -35347,7 +35347,7 @@ var Echo = function () {
 
     /**
      * Creates an array of `array` values not included in the other given arrays
-     * using [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons. The order and references of result values are
      * determined by the first array.
      *
@@ -35848,7 +35848,7 @@ var Echo = function () {
 
     /**
      * Gets the index at which the first occurrence of `value` is found in `array`
-     * using [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons. If `fromIndex` is negative, it's used as the
      * offset from the end of `array`.
      *
@@ -35902,7 +35902,7 @@ var Echo = function () {
 
     /**
      * Creates an array of unique values that are included in all given arrays
-     * using [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons. The order and references of result values are
      * determined by the first array.
      *
@@ -36096,7 +36096,7 @@ var Echo = function () {
 
     /**
      * Removes all given values from `array` using
-     * [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * **Note:** Unlike `_.without`, this method mutates `array`. Use `_.remove`
@@ -36715,7 +36715,7 @@ var Echo = function () {
 
     /**
      * Creates an array of unique values, in order, from all given arrays using
-     * [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -36793,7 +36793,7 @@ var Echo = function () {
 
     /**
      * Creates a duplicate-free version of an array, using
-     * [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons, in which only the first occurrence of each element
      * is kept. The order of result values is determined by the order they occur
      * in the array.
@@ -36936,7 +36936,7 @@ var Echo = function () {
 
     /**
      * Creates an array excluding all given values using
-     * [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * **Note:** Unlike `_.pull`, this method returns a new array.
@@ -37823,7 +37823,7 @@ var Echo = function () {
     /**
      * Checks if `value` is in `collection`. If `collection` is a string, it's
      * checked for a substring of `value`, otherwise
-     * [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * is used for equality comparisons. If `fromIndex` is negative, it's used as
      * the offset from the end of `collection`.
      *
@@ -38528,7 +38528,7 @@ var Echo = function () {
      *
      * This method differs from `_.bind` by allowing bound functions to reference
      * methods that may be redefined or don't yet exist. See
-     * [Peter Michaux's article](https://peter.michaux.ca/articles/lazy-function-definition-pattern)
+     * [Peter Michaux's article](http://peter.michaux.ca/articles/lazy-function-definition-pattern)
      * for more details.
      *
      * The `_.bindKey.placeholder` value, which defaults to `_` in monolithic
@@ -38925,7 +38925,7 @@ var Echo = function () {
      * **Note:** The cache is exposed as the `cache` property on the memoized
      * function. Its creation may be customized by replacing the `_.memoize.Cache`
      * constructor with one whose instances implement the
-     * [`Map`](https://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+     * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
      * method interface of `clear`, `delete`, `get`, `has`, and `set`.
      *
      * @static
@@ -39225,7 +39225,7 @@ var Echo = function () {
     /**
      * Creates a function that invokes `func` with the `this` binding of the
      * create function and an array of arguments much like
-     * [`Function#apply`](https://www.ecma-international.org/ecma-262/7.0/#sec-function.prototype.apply).
+     * [`Function#apply`](http://www.ecma-international.org/ecma-262/7.0/#sec-function.prototype.apply).
      *
      * **Note:** This method is based on the
      * [spread operator](https://mdn.io/spread_operator).
@@ -39573,7 +39573,7 @@ var Echo = function () {
 
     /**
      * Performs a
-     * [`SameValueZero`](https://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
      * comparison between two values to determine if they are equivalent.
      *
      * @static
@@ -40110,7 +40110,7 @@ var Echo = function () {
      * Checks if `value` is a valid array-like length.
      *
      * **Note:** This method is loosely based on
-     * [`ToLength`](https://ecma-international.org/ecma-262/7.0/#sec-tolength).
+     * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
      *
      * @static
      * @memberOf _
@@ -40139,7 +40139,7 @@ var Echo = function () {
 
     /**
      * Checks if `value` is the
-     * [language type](https://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
      * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
      *
      * @static
@@ -40793,7 +40793,7 @@ var Echo = function () {
      * Converts `value` to an integer.
      *
      * **Note:** This method is loosely based on
-     * [`ToInteger`](https://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+     * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
      *
      * @static
      * @memberOf _
@@ -40827,7 +40827,7 @@ var Echo = function () {
      * array-like object.
      *
      * **Note:** This method is based on
-     * [`ToLength`](https://ecma-international.org/ecma-262/7.0/#sec-tolength).
+     * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
      *
      * @static
      * @memberOf _
@@ -41701,7 +41701,7 @@ var Echo = function () {
      * Creates an array of the own enumerable property names of `object`.
      *
      * **Note:** Non-object values are coerced to objects. See the
-     * [ES spec](https://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+     * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
      * for more details.
      *
      * @static
@@ -42656,7 +42656,7 @@ var Echo = function () {
      * (under "semi-related fun fact") for more details.
      *
      * When working with HTML you should always
-     * [quote attribute values](https://wonko.com/post/html-escaping) to reduce
+     * [quote attribute values](http://wonko.com/post/html-escaping) to reduce
      * XSS vectors.
      *
      * @static
@@ -43093,7 +43093,7 @@ var Echo = function () {
      * object is given, it takes precedence over `_.templateSettings` values.
      *
      * **Note:** In the development build `_.template` utilizes
-     * [sourceURLs](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl)
+     * [sourceURLs](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl)
      * for easier debugging.
      *
      * For more information on precompiling templates see
@@ -43191,7 +43191,7 @@ var Echo = function () {
      */
     function template(string, options, guard) {
       // Based on John Resig's `tmpl` implementation
-      // (https://ejohn.org/blog/javascript-micro-templating/)
+      // (http://ejohn.org/blog/javascript-micro-templating/)
       // and Laura Doktorova's doT.js (https://github.com/olado/doT).
       var settings = lodash.templateSettings;
 
@@ -45510,7 +45510,7 @@ var Echo = function () {
   if (true) {
     // Expose Lodash on the global object to prevent errors when Lodash is
     // loaded by a script tag in the presence of an AMD loader.
-    // See https://requirejs.org/docs/errors.html#mismatch for more details.
+    // See http://requirejs.org/docs/errors.html#mismatch for more details.
     // Use `_.noConflict` to remove Lodash from the global object.
     root._ = _;
 
@@ -55077,9 +55077,9 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     }
     var monthsParse = [/^янв/i, /^фев/i, /^мар/i, /^апр/i, /^ма[йя]/i, /^июн/i, /^июл/i, /^авг/i, /^сен/i, /^окт/i, /^ноя/i, /^дек/i];
 
-    // https://new.gramota.ru/spravka/rules/139-prop : § 103
-    // Сокращения месяцев: https://new.gramota.ru/spravka/buro/search-answer?s=242637
-    // CLDR data:          https://www.unicode.org/cldr/charts/28/summary/ru.html#1753
+    // http://new.gramota.ru/spravka/rules/139-prop : § 103
+    // Сокращения месяцев: http://new.gramota.ru/spravka/buro/search-answer?s=242637
+    // CLDR data:          http://www.unicode.org/cldr/charts/28/summary/ru.html#1753
     var ru = moment.defineLocale('ru', {
         months : {
             format: 'января_февраля_марта_апреля_мая_июня_июля_августа_сентября_октября_ноября_декабря'.split('_'),
@@ -56473,7 +56473,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
                 return symbolMap[match];
             });
         },
-        // refer https://ta.wikipedia.org/s/1er1
+        // refer http://ta.wikipedia.org/s/1er1
         meridiemParse: /யாமம்|வைகறை|காலை|நண்பகல்|எற்பாடு|மாலை/,
         meridiem : function (hour, minute, isLower) {
             if (hour < 2) {
@@ -59202,7 +59202,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         return regexes[token](config._strict, config._locale);
     }
 
-    // Code from https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+    // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
     function unescapeFormat(s) {
         return regexEscape(s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
@@ -60423,7 +60423,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
                         'use moment.updateLocale(localeName, config) to change ' +
                         'an existing locale. moment.defineLocale(localeName, ' +
                         'config) should only be used for creating a new locale ' +
-                        'See https://momentjs.com/guides/#/warnings/define-locale/ for more info.');
+                        'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
                 parentConfig = locales[name]._config;
             } else if (config.parentLocale != null) {
                 if (locales[config.parentLocale] != null) {
@@ -60918,7 +60918,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' +
         'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' +
         'discouraged and will be removed in an upcoming major release. Please refer to ' +
-        'https://momentjs.com/guides/#/warnings/js-date/ for more info.',
+        'http://momentjs.com/guides/#/warnings/js-date/ for more info.',
         function (config) {
             config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
@@ -61182,7 +61182,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     }
 
     var prototypeMin = deprecate(
-        'moment().min is deprecated, use moment.max instead. https://momentjs.com/guides/#/warnings/min-max/',
+        'moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/',
         function () {
             var other = createLocal.apply(null, arguments);
             if (this.isValid() && other.isValid()) {
@@ -61194,7 +61194,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     );
 
     var prototypeMax = deprecate(
-        'moment().max is deprecated, use moment.min instead. https://momentjs.com/guides/#/warnings/min-max/',
+        'moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/',
         function () {
             var other = createLocal.apply(null, arguments);
             if (this.isValid() && other.isValid()) {
@@ -61548,7 +61548,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     // ASP.NET json date format regex
     var aspNetRegex = /^(\-|\+)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/;
 
-    // from https://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
+    // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
     // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
     // and further modified to allow for strings containing both week and day
     var isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
@@ -61665,7 +61665,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             //invert the arguments, but complain about it
             if (period !== null && !isNaN(+period)) {
                 deprecateSimple(name, 'moment().' + name  + '(period, number) is deprecated. Please use moment().' + name + '(number, period). ' +
-                'See https://momentjs.com/guides/#/warnings/add-inverted-param/ for more info.');
+                'See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info.');
                 tmp = val; val = period; period = tmp;
             }
 
@@ -62524,8 +62524,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     proto.dates  = deprecate('dates accessor is deprecated. Use date instead.', getSetDayOfMonth);
     proto.months = deprecate('months accessor is deprecated. Use month instead', getSetMonth);
     proto.years  = deprecate('years accessor is deprecated. Use year instead', getSetYear);
-    proto.zone   = deprecate('moment().zone is deprecated, use moment().utcOffset instead. https://momentjs.com/guides/#/warnings/zone/', getSetZone);
-    proto.isDSTShifted = deprecate('isDSTShifted is deprecated. See https://momentjs.com/guides/#/warnings/dst-shifted/ for more information', isDaylightSavingTimeShifted);
+    proto.zone   = deprecate('moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/', getSetZone);
+    proto.isDSTShifted = deprecate('isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information', isDaylightSavingTimeShifted);
 
     function createUnix (input) {
         return createLocal(input * 1000);
@@ -66824,7 +66824,7 @@ var Defaults = {
     activity_timeout: 120000,
     pong_timeout: 30000,
     unavailable_timeout: 10000,
-    cdn_http: "https://js.pusher.com",
+    cdn_http: "http://js.pusher.com",
     cdn_https: "https://js.pusher.com",
     dependency_suffix: ""
 };
@@ -69001,7 +69001,7 @@ exports["default"] = EncryptedChannel;
 // Public domain.
 //
 // Implementation derived from TweetNaCl version 20140427.
-// See for details: https://tweetnacl.cr.yp.to/
+// See for details: http://tweetnacl.cr.yp.to/
 
 var gf = function(init) {
   var i, r = new Float64Array(16);
@@ -71475,7 +71475,7 @@ nacl.setPRNG = function(fn) {
 /*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <https://feross.org>
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * @license  MIT
  */
 /* eslint-disable no-proto */
@@ -72463,7 +72463,7 @@ function utf8Slice (buf, start, end) {
   return decodeCodePointsArray(res)
 }
 
-// Based on https://stackoverflow.com/a/22747272/680742, the browser with
+// Based on http://stackoverflow.com/a/22747272/680742, the browser with
 // the lowest limit is Chrome, with 0x10000 args.
 // We go 1 magnitude less, for safety
 var MAX_ARGUMENTS_LENGTH = 0x1000
@@ -75045,7 +75045,7 @@ exports.getClusterConfig = function (clusterName) {
     function installPostMessageImplementation() {
         // Installs an event handler on `global` for the `message` event: see
         // * https://developer.mozilla.org/en/DOM/window.postMessage
-        // * https://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
 
         var messagePrefix = "setImmediate$" + Math.random() + "$";
         var onGlobalMessage = function(event) {
@@ -75190,7 +75190,7 @@ if(false) {}
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
-	MIT License https://www.opensource.org/licenses/mit-license.php
+	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
 
@@ -75207,7 +75207,7 @@ var	memoize = function (fn) {
 
 var isOldIE = memoize(function () {
 	// Test for IE <= 9 as proposed by Browserhacks
-	// @see https://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
 	// Tests for existence of standard globals is to allow style-loader
 	// to operate correctly into non-standard environments
 	// @see https://github.com/webpack-contrib/style-loader/issues/177
@@ -75575,7 +75575,7 @@ function updateLink (link, options, obj) {
 	}
 
 	if (sourceMap) {
-		// https://stackoverflow.com/a/26603875
+		// http://stackoverflow.com/a/26603875
 		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
 	}
 
@@ -77339,7 +77339,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return regexes[token](config._strict, config._locale);
     }
 
-    // Code from https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+    // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
     function unescapeFormat(s) {
         return regexEscape(s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
@@ -78541,7 +78541,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var parentConfig = baseConfig;
             config.abbr = name;
             if (locales[name] != null) {
-                deprecateSimple('defineLocaleOverride', 'use moment.updateLocale(localeName, config) to change ' + 'an existing locale. moment.defineLocale(localeName, ' + 'config) should only be used for creating a new locale ' + 'See https://momentjs.com/guides/#/warnings/define-locale/ for more info.');
+                deprecateSimple('defineLocaleOverride', 'use moment.updateLocale(localeName, config) to change ' + 'an existing locale. moment.defineLocale(localeName, ' + 'config) should only be used for creating a new locale ' + 'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
                 parentConfig = locales[name]._config;
             } else if (config.parentLocale != null) {
                 if (locales[config.parentLocale] != null) {
@@ -78996,7 +78996,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         hooks.createFromInputFallback(config);
     }
 
-    hooks.createFromInputFallback = deprecate('value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' + 'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' + 'discouraged and will be removed in an upcoming major release. Please refer to ' + 'https://momentjs.com/guides/#/warnings/js-date/ for more info.', function (config) {
+    hooks.createFromInputFallback = deprecate('value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' + 'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' + 'discouraged and will be removed in an upcoming major release. Please refer to ' + 'http://momentjs.com/guides/#/warnings/js-date/ for more info.', function (config) {
         config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
     });
 
@@ -79250,7 +79250,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return createLocalOrUTC(input, format, locale, strict, false);
     }
 
-    var prototypeMin = deprecate('moment().min is deprecated, use moment.max instead. https://momentjs.com/guides/#/warnings/min-max/', function () {
+    var prototypeMin = deprecate('moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/', function () {
         var other = createLocal.apply(null, arguments);
         if (this.isValid() && other.isValid()) {
             return other < this ? this : other;
@@ -79259,7 +79259,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     });
 
-    var prototypeMax = deprecate('moment().max is deprecated, use moment.min instead. https://momentjs.com/guides/#/warnings/min-max/', function () {
+    var prototypeMax = deprecate('moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/', function () {
         var other = createLocal.apply(null, arguments);
         if (this.isValid() && other.isValid()) {
             return other > this ? this : other;
@@ -79600,7 +79600,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // ASP.NET json date format regex
     var aspNetRegex = /^(\-|\+)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/;
 
-    // from https://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
+    // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
     // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
     // and further modified to allow for strings containing both week and day
     var isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
@@ -79717,7 +79717,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var dur, tmp;
             //invert the arguments, but complain about it
             if (period !== null && !isNaN(+period)) {
-                deprecateSimple(name, 'moment().' + name + '(period, number) is deprecated. Please use moment().' + name + '(number, period). ' + 'See https://momentjs.com/guides/#/warnings/add-inverted-param/ for more info.');
+                deprecateSimple(name, 'moment().' + name + '(period, number) is deprecated. Please use moment().' + name + '(number, period). ' + 'See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info.');
                 tmp = val;val = period;period = tmp;
             }
 
@@ -80510,8 +80510,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     proto.dates = deprecate('dates accessor is deprecated. Use date instead.', getSetDayOfMonth);
     proto.months = deprecate('months accessor is deprecated. Use month instead', getSetMonth);
     proto.years = deprecate('years accessor is deprecated. Use year instead', getSetYear);
-    proto.zone = deprecate('moment().zone is deprecated, use moment().utcOffset instead. https://momentjs.com/guides/#/warnings/zone/', getSetZone);
-    proto.isDSTShifted = deprecate('isDSTShifted is deprecated. See https://momentjs.com/guides/#/warnings/dst-shifted/ for more information', isDaylightSavingTimeShifted);
+    proto.zone = deprecate('moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/', getSetZone);
+    proto.isDSTShifted = deprecate('isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information', isDaylightSavingTimeShifted);
 
     function createUnix(input) {
         return createLocal(input * 1000);
@@ -81162,7 +81162,7 @@ var vueMoment = {
             {
               /*
               * Mutates the original moment by adding time.
-              * https://momentjs.com/docs/#/manipulating/add/
+              * http://momentjs.com/docs/#/manipulating/add/
               */
 
               var addends = args.shift().split(',').map(Function.prototype.call, String.prototype.trim);
@@ -81180,7 +81180,7 @@ var vueMoment = {
             {
               /*
               * Mutates the original moment by subtracting time.
-              * https://momentjs.com/docs/#/manipulating/subtract/
+              * http://momentjs.com/docs/#/manipulating/subtract/
               */
 
               var subtrahends = args.shift().split(',').map(Function.prototype.call, String.prototype.trim);
@@ -81198,7 +81198,7 @@ var vueMoment = {
             {
               /*
               * Display a moment in relative time, either from now or from a specified date.
-              * https://momentjs.com/docs/#/displaying/fromnow/
+              * http://momentjs.com/docs/#/displaying/fromnow/
               */
 
               var from = 'now';
@@ -81225,7 +81225,7 @@ var vueMoment = {
             {
               /*
               * Mutates the original moment by doing a difference with another date.
-              * https://momentjs.com/docs/#/displaying/difference/
+              * http://momentjs.com/docs/#/displaying/difference/
               */
 
               var referenceTime = moment$$1();
@@ -81253,7 +81253,7 @@ var vueMoment = {
               /*
               * Formats a date with different strings depending on how close
               * to a certain date (today by default) the date is.
-              * https://momentjs.com/docs/#/displaying/calendar-time/
+              * http://momentjs.com/docs/#/displaying/calendar-time/
               */
 
               var _referenceTime = moment$$1();
@@ -81298,7 +81298,7 @@ var vueMoment = {
               /*
               * Formats a date by taking a string of tokens and replacing
               * them with their corresponding values.
-              * https://momentjs.com/docs/#/displaying/format/
+              * http://momentjs.com/docs/#/displaying/format/
               */
 
               var format = method;
@@ -89703,7 +89703,7 @@ var isBooleanAttr = makeMap(
   'truespeed,typemustmatch,visible'
 );
 
-var xlinkNS = 'https://www.w3.org/1999/xlink';
+var xlinkNS = 'http://www.w3.org/1999/xlink';
 
 var isXlink = function (name) {
   return name.charAt(5) === ':' && name.slice(0, 5) === 'xlink'
@@ -89801,8 +89801,8 @@ function stringifyObject (value) {
 /*  */
 
 var namespaceMap = {
-  svg: 'https://www.w3.org/2000/svg',
-  math: 'https://www.w3.org/1998/Math/MathML'
+  svg: 'http://www.w3.org/2000/svg',
+  math: 'http://www.w3.org/1998/Math/MathML'
 };
 
 var isHTMLTag = makeMap(
@@ -89861,7 +89861,7 @@ function isUnknownElement (tag) {
   }
   var el = document.createElement(tag);
   if (tag.indexOf('-') > -1) {
-    // https://stackoverflow.com/a/28210364/1070244
+    // http://stackoverflow.com/a/28210364/1070244
     return (unknownElementCache[tag] = (
       el.constructor === window.HTMLUnknownElement ||
       el.constructor === window.HTMLElement
@@ -92674,7 +92674,7 @@ var patch = createPatchFunction({ nodeOps: nodeOps, modules: modules });
 
 /* istanbul ignore if */
 if (isIE9) {
-  // https://www.matts411.com/post/internet-explorer-9-oninput/
+  // http://www.matts411.com/post/internet-explorer-9-oninput/
   document.addEventListener('selectionchange', function () {
     var el = document.activeElement;
     if (el && el.vmodel) {
@@ -93528,7 +93528,7 @@ function parseHTML (html, options) {
           }
         }
 
-        // https://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
+        // http://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
         if (conditionalComment.test(html)) {
           var conditionalEnd = html.indexOf(']>');
 
