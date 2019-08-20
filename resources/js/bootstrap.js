@@ -61,7 +61,7 @@ window.Echo = new Echo({
 //     key: 'd525c0695570725833ac',
 //     cluster: 'mt1',
 //     forceTLS: true
-  });
+//   });
   
 //   var channel = Echo.channel('my-channel');
 //   channel.listen('my-event', function(data) {
