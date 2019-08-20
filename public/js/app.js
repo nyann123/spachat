@@ -97495,17 +97495,22 @@ if (token) {
 
 
 
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); // window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_PUSHER_APP_KEY,
+//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     encrypted: true
+// });
+
+window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: 'd525c0695570725833ac',
   cluster: 'mt1',
   forceTLS: true
-});
-var channel = Echo.channel('my-channel');
-channel.listen('my-event', function (data) {
-  alert(JSON.stringify(data));
-});
+}); //   var channel = Echo.channel('my-channel');
+//   channel.listen('my-event', function(data) {
+//     alert(JSON.stringify(data));
+//   });
 
 /***/ }),
 
