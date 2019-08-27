@@ -77,27 +77,8 @@ export default {
         log.scrollTo(0, log.scrollHeight)
       })
     },
-
-    enterUser(){
-      if(!this.$store.getters.getEntering){
-        const user = this.$store.getters.getUser.name;
-        this.$store.commit('setEntering', true)
-        this.message = user + 'さんが入室しました';
-        this.send();
-      }
-    },
-    exitUser(){
-      if(this.$store.getters.getEntering){
-        const user = this.$store.getters.getUser.name;
-        this.$store.commit('setEntering', false)
-        this.message = user + 'さんが退室しました';
-        this.send();
-      }
-    }
-
-  },
-    mounted() {
-      this.enterUser()
+    
+    setup() {
       this.handleResize();
       this.getMessages();
       this.scrollToEnd();
@@ -117,12 +98,15 @@ export default {
         this.getMessages(); // 全メッセージを再読込
 
       });
+    }
+  },
+    mounted() {
+      this.setup();
     },
 
     //　ページ移動前に更新解除
     beforeDestroy () {
       clearInterval(this.interval)
-      this.exitUser();
     },
     
     //　urlを書き換えたら移動

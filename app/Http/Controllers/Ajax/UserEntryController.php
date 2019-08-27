@@ -12,7 +12,7 @@ class UserEntryController extends Controller
 
         // ref! バリデーション
 
-        $data = $message = \App\User::create([
+        $data =  \App\User::create([
             'name' => $request->name
         ]);
         

@@ -56,14 +56,16 @@ window.Pusher = require('pusher-js');
 
 // });
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'd525c0695570725833ac',
-    cluster: 'mt1',
-    forceTLS: true
-  });
-  
-//   var channel = Echo.channel('my-channel');
-//   channel.listen('my-event', function(data) {
-//     alert(JSON.stringify(data));
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: 'd525c0695570725833ac',
+//     cluster: 'mt1',
+//     forceTLS: true
 //   });
+  
+  window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    encrypted: true
+});

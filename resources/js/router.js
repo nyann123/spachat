@@ -40,20 +40,21 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  
-    store.commit("setLoading", true);
+
+    // store.commit("setLoading", true);
 
   //　アクセス制限
   // 　名前が未設定なら設定ページへ
-  // if( to.matched.some(record => !record.meta.isEntry) && !store.getters.getUser.name || !store.getters.getUser.id){
-  //   next({ path: '/'})
-  // }else{
+  if( to.matched.some(record => !record.meta.isEntry) && !store.getters.getUser.name || !store.getters.getUser.id){
+    console.log('hoge');
+    next({ path: '/'})
+  }else{
     next();
-  // }
+  }
 })
 
 router.afterEach(() => {
-  store.commit("setLoading", false);
+  // store.commit("setLoading", false);
 })
 
 // VueRouterインスタンスをエクスポートする
