@@ -24,6 +24,16 @@ const getters = {
 }
 
 const mutations = {
+  stateInit(state){
+    state.loading = true,
+    state.entering = false,
+    state.header_height = 0,
+    state.user = {
+      name: '',
+      id: '',
+    }
+  },
+
   setLoading(state, payload) {
     state.loading = payload;
   },

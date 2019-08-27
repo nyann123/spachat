@@ -45,9 +45,12 @@ router.beforeEach((to, from, next) => {
 
   //　アクセス制限
   // 　名前が未設定なら設定ページへ
-  if( to.matched.some(record => !record.meta.isEntry) && !store.getters.getUser.name || !store.getters.getUser.id){
-    console.log('hoge');
-    next({ path: '/'})
+  if(to.path !== '/'){
+    if(!store.getters.getUser.name && !store.getters.getUser.id){
+      next({ path: '/'})
+    }else{
+      next();
+    }
   }else{
     next();
   }

@@ -11630,6 +11630,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (!this.name_valid) {
+        this.$store.commit('stateInit');
         var url = 'ajax/entry';
         var params = {
           name: this.name
@@ -98094,13 +98095,14 @@ router.beforeEach(function (to, from, next) {
   // store.commit("setLoading", true);
   //　アクセス制限
   // 　名前が未設定なら設定ページへ
-  if (to.matched.some(function (record) {
-    return !record.meta.isEntry;
-  }) && !_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser.name || !_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser.id) {
-    console.log('hoge');
-    next({
-      path: '/'
-    });
+  if (to.path !== '/') {
+    if (!_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser.name && !_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser.id) {
+      next({
+        path: '/'
+      });
+    } else {
+      next();
+    }
   } else {
     next();
   }
@@ -98146,6 +98148,12 @@ var getters = {
   }
 };
 var mutations = {
+  stateInit: function stateInit(state) {
+    state.loading = true, state.entering = false, state.header_height = 0, state.user = {
+      name: '',
+      id: ''
+    };
+  },
   setLoading: function setLoading(state, payload) {
     state.loading = payload;
   },

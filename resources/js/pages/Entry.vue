@@ -31,6 +31,7 @@ export default {
     entry() {
       if(!this.name_valid){
 
+        this.$store.commit('stateInit');
         const url = 'ajax/entry';
         const params = { name: this.name };
         axios.post(url, params)
