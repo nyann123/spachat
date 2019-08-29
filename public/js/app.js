@@ -11459,7 +11459,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var header = this.$el.querySelector('.navbar');
-    this.$store.commit("setHeader_height", header.clientHeight);
   }
 });
 
@@ -11545,9 +11544,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     //　コンテンツのサイズ調整
     handleResize: function handleResize() {
-      this.content_height = window.innerHeight - this.$store.getters.getHeader_height -
+      this.content_height = window.innerHeight -
       /* なぜか崩れるのでとりあえず固定値(96) this.$el.querySelector('.footer').clientHeight */
-      96 - 15;
+      96 - 85;
     },
     //一番下までスクロール
     scrollToEnd: function scrollToEnd() {
@@ -11714,7 +11713,7 @@ __webpack_require__.r(__webpack_exports__);
         var url = 'ajax/room';
         var params = {
           room_name: this.room_name || this.$store.getters.getUser.name + 'の部屋',
-          host_user: this.$store.getters.getUser.name,
+          user: this.$store.getters.getUser,
           password: this.password || ''
         };
         axios.post(url, params).then(function (response) {
@@ -11793,7 +11792,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getchatroom: function getchatroom() {
+    getChatroom: function getChatroom() {
       var _this = this;
 
       this.$store.commit("setLoading", true);
@@ -11804,17 +11803,29 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.commit("setLoading", false);
       });
     },
-    enterroom: function enterroom(room) {
+    isPassword: function isPassword(room) {
+      this.choice_room = room;
+
       if (room.password) {
-        this.choice_room = room;
         this.openModal();
       } else {
-        this.$router.push('/chatroom/' + room.id);
+        this.enterRoom();
       }
     },
-    password_auth: function password_auth() {
+    enterRoom: function enterRoom() {
       var _this2 = this;
 
+      var self = this;
+      var url = 'ajax/enterroom';
+      var params = {
+        user_id: this.$store.getters.getUser.id,
+        room_id: this.choice_room.id
+      };
+      axios.post(url, params).then(function (response) {
+        self.$router.push('/chatroom/' + _this2.choice_room.id);
+      });
+    },
+    passwordAuth: function passwordAuth() {
       if (this.input_password) {
         var self = this;
         var url = 'ajax/roomauth';
@@ -11824,7 +11835,7 @@ __webpack_require__.r(__webpack_exports__);
         };
         axios.post(url, params).then(function (response) {
           if (response.data) {
-            _this2.$router.push('/chatroom/' + _this2.choice_room.id);
+            self.enterRoom();
           } else {
             self.input_password_valid = true;
           }
@@ -11834,7 +11845,7 @@ __webpack_require__.r(__webpack_exports__);
     //　コンテンツのサイズ調整
     handleResize: function handleResize() {
       var head_height = this.$el.querySelector(".headar").clientHeight;
-      this.content_height = window.innerHeight - this.$store.getters.getHeader_height - head_height - 15;
+      this.content_height = window.innerHeight - head_height - 85;
     },
     openModal: function openModal() {
       this.modal = true;
@@ -11846,7 +11857,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.getchatroom();
+    this.getChatroom();
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
   }
@@ -76400,7 +76411,7 @@ var render = function() {
               staticClass: "btn btn-outline-primary",
               on: {
                 click: function($event) {
-                  return _vm.getchatroom()
+                  return _vm.getChatroom()
                 }
               }
             },
@@ -76453,7 +76464,7 @@ var render = function() {
                         staticClass: "btn btn-primary col-8",
                         on: {
                           click: function($event) {
-                            return _vm.enterroom(room)
+                            return _vm.isPassword(room)
                           }
                         }
                       },
@@ -76510,7 +76521,7 @@ var render = function() {
                     staticClass: "btn btn-primary col-lg-2",
                     on: {
                       click: function($event) {
-                        return _vm.password_auth()
+                        return _vm.passwordAuth()
                       }
                     }
                   },
@@ -98092,11 +98103,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
 });
 router.beforeEach(function (to, from, next) {
-  // store.commit("setLoading", true);
-  //　アクセス制限
-  // 　名前が未設定なら設定ページへ
-  if (to.path !== '/') {
-    if (!_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser.name && !_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser.id) {
+  _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", true);
+  var user = _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser; //　アクセス制限
+  //  名前が未設定なら設定ページへ
+
+  if (!user.name || !user.id) {
+    if (to.path !== '/') {
       next({
         path: '/'
       });
@@ -98105,9 +98117,26 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     next();
+  } // //  入室した部屋のみ入れるように
+
+
+  if (to.params.id) {
+    var url = 'ajax/isEntering';
+    var params = {
+      user_id: user.id,
+      room_id: to.params.id
+    };
+    axios.post(url, params).then(function (response) {
+      if (response.data) {
+        next();
+      } else {
+        next('/Top');
+      }
+    });
   }
 });
-router.afterEach(function () {// store.commit("setLoading", false);
+router.afterEach(function () {
+  _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false);
 }); // VueRouterインスタンスをエクスポートする
 // app.jsでインポートするため
 
@@ -98127,7 +98156,6 @@ __webpack_require__.r(__webpack_exports__);
 var state = {
   loading: true,
   entering: false,
-  header_height: 0,
   user: {
     name: '',
     id: ''
@@ -98142,14 +98170,11 @@ var getters = {
   },
   getUser: function getUser(state) {
     return state.user;
-  },
-  getHeader_height: function getHeader_height(state) {
-    return state.header_height;
   }
 };
 var mutations = {
   stateInit: function stateInit(state) {
-    state.loading = true, state.entering = false, state.header_height = 0, state.user = {
+    state.loading = true, state.entering = false, state.user = {
       name: '',
       id: ''
     };
@@ -98163,9 +98188,6 @@ var mutations = {
   setUser: function setUser(state, payload) {
     state.user.name = payload.name;
     state.user.id = payload.id;
-  },
-  setHeader_height: function setHeader_height(state, payload) {
-    state.header_height = payload;
   }
 };
 var actions = {};

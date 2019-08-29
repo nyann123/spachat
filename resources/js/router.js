@@ -41,12 +41,14 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 
-    // store.commit("setLoading", true);
+  store.commit("setLoading", true);
+  const user = store.getters.getUser
 
   //　アクセス制限
-  // 　名前が未設定なら設定ページへ
-  if(to.path !== '/'){
-    if(!store.getters.getUser.name && !store.getters.getUser.id){
+  //  名前が未設定なら設定ページへ
+  
+  if(!user.name || !user.id){
+    if(to.path !== '/'){
       next({ path: '/'})
     }else{
       next();
@@ -54,10 +56,28 @@ router.beforeEach((to, from, next) => {
   }else{
     next();
   }
+
+  // //  入室した部屋のみ入れるように
+  if(to.params.id){
+    const url ='ajax/isEntering';
+    const params = {  user_id : user.id,
+                      room_id: to.params.id,
+                     }
+    axios.post(url, params)
+      .then((response) => {
+      if(response.data){
+        next();
+      }else{
+        next('/Top')
+      }
+    })
+      
+  }
+
 })
 
 router.afterEach(() => {
-  // store.commit("setLoading", false);
+  store.commit("setLoading", false);
 })
 
 // VueRouterインスタンスをエクスポートする

@@ -1,7 +1,6 @@
 const state = {
   loading: true,
   entering: false,
-  header_height: 0,
   user: {
     name: '',
     id: '',
@@ -18,16 +17,12 @@ const getters = {
   getUser(state){
     return state.user
   },
-  getHeader_height(state){
-    return state.header_height
-  },
 }
 
 const mutations = {
   stateInit(state){
     state.loading = true,
     state.entering = false,
-    state.header_height = 0,
     state.user = {
       name: '',
       id: '',
@@ -46,10 +41,6 @@ const mutations = {
     state.user.name = payload.name;
     state.user.id = payload.id;
   },
-
-  setHeader_height(state, payload) {
-    state.header_height = payload;
-  }
 }
 
 const actions = {}

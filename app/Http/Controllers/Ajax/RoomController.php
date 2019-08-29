@@ -24,10 +24,12 @@ class RoomController extends Controller
         
         $data = \App\ChatRoom::create([
             'room_name' => $request->room_name,
-            'host_user' => $request->host_user,
+            'host_user' => $request->user['name'],
             'password' => $password,
             ]);
         
+        \App\User::where('id', $request->user['id'])->update(['room' => $data->id]);
+
         return $data->id;
     }
 }

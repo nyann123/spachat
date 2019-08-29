@@ -67,7 +67,7 @@ export default {
 
     //　コンテンツのサイズ調整
     handleResize: function() {
-      this.content_height = window.innerHeight - this.$store.getters.getHeader_height - /* なぜか崩れるのでとりあえず固定値(96) this.$el.querySelector('.footer').clientHeight */ 96 -15;
+      this.content_height = window.innerHeight - /* なぜか崩れるのでとりあえず固定値(96) this.$el.querySelector('.footer').clientHeight */ 96 - 85;
     },
 
     //一番下までスクロール

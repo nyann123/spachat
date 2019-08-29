@@ -5,7 +5,7 @@
     <RouterLink to="/roomcreate" class="btn btn-outline-primary mr-3">
       新しい部屋を作る
     </RouterLink>
-    <button @click="getchatroom()" class="btn btn-outline-primary">更新する</button>
+    <button @click="getChatroom()" class="btn btn-outline-primary">更新する</button>
   </div>
   <div class="row" :style="{ height: this.content_height + 'px' }" style="overflow: auto;" v-if="!$store.getters.getLoading">
     <div class="col-lg-4 pb-2" v-for="room in chat_rooms">
@@ -16,7 +16,7 @@
           <p class="card-text"><small>部屋主: {{ room.host_user }}</small></p>
         </div>
         <div class="card-footer bg-white d-flex">
-          <button @click="enterroom(room)" class="btn btn-primary col-8">入室</button>
+          <button @click="isPassword(room)" class="btn btn-primary col-8">入室</button>
           <!-- <p class="col-4 text-center">0/20人</p> -->
         </div>
       </div>
@@ -30,7 +30,7 @@
     <small v-if="input_password_valid" class="invalid-feedback">パスワードが間違っています</small>
 
     <template slot="footer">
-      <button @click="password_auth()" class="btn btn-primary col-lg-2">送信</button>
+      <button @click="passwordAuth()" class="btn btn-primary col-lg-2">送信</button>
     </template>
   </Modal>
 </div>
@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    getchatroom() {
+    getChatroom() {
 
       this.$store.commit("setLoading", true);
 
@@ -68,16 +68,28 @@ export default {
       });
     },
 
-    enterroom(room) {
+    isPassword(room) {
+      this.choice_room = room;
       if(room.password){
-        this.choice_room = room;
         this.openModal()
       }else{
-        this.$router.push('/chatroom/' + room.id)
+        this.enterRoom();
       }
     },
 
-    password_auth(){
+    enterRoom(){
+      const self = this;
+      const url ='ajax/enterroom';
+      const params ={ user_id: this.$store.getters.getUser.id,
+                      room_id: this.choice_room.id,
+                      }
+      axios.post(url, params)
+        .then((response) => {
+        self.$router.push('/chatroom/' + this.choice_room.id)
+        })
+    },
+
+    passwordAuth(){
       if(this.input_password){
 
         const self = this;
@@ -89,11 +101,11 @@ export default {
         axios.post(url, params)
           .then((response) => {
 
-            if(response.data){
-              this.$router.push('/chatroom/' + this.choice_room.id)
-            }else{
-              self.input_password_valid = true;
-            }
+          if(response.data){
+            self.enterRoom();
+          }else{
+            self.input_password_valid = true;
+          }
 
         })
       }
@@ -102,7 +114,7 @@ export default {
     //　コンテンツのサイズ調整
     handleResize() {
       const head_height = this.$el.querySelector(".headar").clientHeight
-      this.content_height = window.innerHeight - this.$store.getters.getHeader_height - head_height - 15;
+      this.content_height = window.innerHeight - head_height - 85;
     },
 
     openModal() {
@@ -114,10 +126,11 @@ export default {
       this.input_password = ''
       this.input_password_valid = false
     },
+
   },
 
   mounted(){
-    this.getchatroom();
+    this.getChatroom();
 
     this.handleResize();
     window.addEventListener('resize', this.handleResize);

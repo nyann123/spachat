@@ -29,7 +29,6 @@
     },
     mounted(){
       const header = this.$el.querySelector('.navbar');
-      this.$store.commit("setHeader_height", header.clientHeight);
     }
   }
 </script>
