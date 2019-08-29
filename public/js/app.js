@@ -98118,22 +98118,21 @@ router.beforeEach(function (to, from, next) {
   } else {
     next();
   } // //  入室した部屋のみ入れるように
+  // if(to.params.id){
+  //   const url ='ajax/isEntering';
+  //   const params = {  user_id : user.id,
+  //                     room_id: to.params.id,
+  //                    }
+  //   axios.post(url, params)
+  //     .then((response) => {
+  //     if(response.data){
+  //       next();
+  //     }else{
+  //       next('/Top')
+  //     }
+  //   })
+  // }
 
-
-  if (to.params.id) {
-    var url = 'ajax/isEntering';
-    var params = {
-      user_id: user.id,
-      room_id: to.params.id
-    };
-    axios.post(url, params).then(function (response) {
-      if (response.data) {
-        next();
-      } else {
-        next('/Top');
-      }
-    });
-  }
 });
 router.afterEach(function () {
   _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false);

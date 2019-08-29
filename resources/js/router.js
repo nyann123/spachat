@@ -58,21 +58,21 @@ router.beforeEach((to, from, next) => {
   }
 
   // //  入室した部屋のみ入れるように
-  if(to.params.id){
-    const url ='ajax/isEntering';
-    const params = {  user_id : user.id,
-                      room_id: to.params.id,
-                     }
-    axios.post(url, params)
-      .then((response) => {
-      if(response.data){
-        next();
-      }else{
-        next('/Top')
-      }
-    })
+  // if(to.params.id){
+  //   const url ='ajax/isEntering';
+  //   const params = {  user_id : user.id,
+  //                     room_id: to.params.id,
+  //                    }
+  //   axios.post(url, params)
+  //     .then((response) => {
+  //     if(response.data){
+  //       next();
+  //     }else{
+  //       next('/Top')
+  //     }
+  //   })
       
-  }
+  // }
 
 })
 
