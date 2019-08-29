@@ -97499,19 +97499,18 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 //     // encrypted: true
 //         forceTLS: true
 // });
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'd525c0695570725833ac',
-//     cluster: 'mt1',
-//     forceTLS: true
-//   });
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "7d15e6bc28176c52cc65",
-  cluster: "ap3",
-  encrypted: true
-});
+  key: 'd525c0695570725833ac',
+  cluster: 'mt1',
+  forceTLS: true
+}); //   window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_PUSHER_APP_KEY,
+//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     encrypted: true
+// });
 
 /***/ }),
 
@@ -98118,21 +98117,22 @@ router.beforeEach(function (to, from, next) {
   } else {
     next();
   } // //  入室した部屋のみ入れるように
-  // if(to.params.id){
-  //   const url ='ajax/isEntering';
-  //   const params = {  user_id : user.id,
-  //                     room_id: to.params.id,
-  //                    }
-  //   axios.post(url, params)
-  //     .then((response) => {
-  //     if(response.data){
-  //       next();
-  //     }else{
-  //       next('/Top')
-  //     }
-  //   })
-  // }
 
+
+  if (to.params.id) {
+    var url = 'ajax/isEntering';
+    var params = {
+      user_id: user.id,
+      room_id: to.params.id
+    };
+    axios.post(url, params).then(function (response) {
+      if (response.data) {
+        next();
+      } else {
+        next('/Top');
+      }
+    });
+  }
 });
 router.afterEach(function () {
   _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false);
