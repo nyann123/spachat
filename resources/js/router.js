@@ -63,10 +63,8 @@ router.beforeEach((to, from, next) => {
     const params = {  user_id : user.id,
                       room_id: to.params.id,
                      }
-                     console.log(params);
     axios.post(url, params)
       .then((response) => {
-        console.log(response);
       if(response.data){
         next();
       }else{
