@@ -11378,6 +11378,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -11498,10 +11517,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       room_id: this.$route.params.id,
+      room_timelimit: false,
       message: '',
       messages: [],
       content_height: 0
@@ -11512,17 +11557,34 @@ __webpack_require__.r(__webpack_exports__);
     send: function send() {
       var _this = this;
 
+      var self = this; //  入力されているか確認
+
       if (this.message) {
-        var url = 'ajax/chat';
+        var user = this.$store.getters.getUser;
+        var url = 'ajax/isEntering';
         var params = {
-          message: this.message,
-          room_id: this.room_id,
-          user_id: this.$store.getters.getUser.id,
-          user_name: this.$store.getters.getUser.name
+          user_id: user.id,
+          room_id: this.$route.params['id']
         };
         axios.post(url, params).then(function (response) {
-          // 成功したらメッセージをクリア
-          _this.message = '';
+          //  チャットルームに入室していればメッセージ送信処理へ  
+          if (response.data) {
+            var _url = 'ajax/chat';
+            var _params = {
+              message: _this.message,
+              room_id: _this.room_id,
+              user_id: user.id,
+              user_name: _this.$store.getters.getUser.name
+            };
+            axios.post(_url, _params).then(function (response) {
+              // メッセージをクリア
+              _this.message = ''; //  チャットルームが時間切れの場合
+
+              if (response.data) {
+                self.$router.push('/top');
+              }
+            });
+          }
         });
       }
     },
@@ -11538,34 +11600,60 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url, {
         params: params
       }).then(function (response) {
-        _this2.messages = response.data;
-        self.scrollToEnd();
+        _this2.messages = response.data; //  一番下までスクロールされていれば追従
+
+        var log = _this2.$el.querySelector("#log");
+
+        if (log.scrollHeight - log.clientHeight === log.scrollTop) {
+          self.scrollToEnd();
+        }
+
+        self.$store.commit("setLoading", false);
       });
     },
     //　コンテンツのサイズ調整
     handleResize: function handleResize() {
-      this.content_height = window.innerHeight -
-      /* なぜか崩れるのでとりあえず固定値(96) this.$el.querySelector('.footer').clientHeight */
-      96 - 85;
+      this.content_height = window.innerHeight - 96
+      /* form */
+      - 62
+      /* header */
+      - 13
+      /* 調整 */
+      ;
     },
-    //一番下までスクロール
+    //  一番下までスクロール
     scrollToEnd: function scrollToEnd() {
       var log = this.$el.querySelector("#log");
       Vue.nextTick(function () {
         log.scrollTo(0, log.scrollHeight);
       });
     },
+    //  チャットルームの制限時間内か確認する
+    isTimeLimit: function isTimeLimit() {
+      var self = this;
+      var url = 'ajax/roomlimit';
+      var params = {
+        room_id: this.room_id
+      };
+      axios.post(url, params).then(function (response) {
+        if (response.data) {
+          self.room_timelimit = true;
+        }
+      });
+    },
     setup: function setup() {
       var _this3 = this;
 
+      this.$store.commit("setLoading", true);
       this.handleResize();
       this.getMessages();
-      this.scrollToEnd();
-      window.addEventListener('resize', this.handleResize); // 30秒毎に更新
+      this.isTimeLimit();
+      window.addEventListener('resize', this.handleResize); // 30秒毎に実行するように
 
       var self = this;
       this.interval = setInterval(function () {
         self.$forceUpdate();
+        self.isTimeLimit();
       }, 1000 * 30);
       Echo.channel('chat').listen('MessageCreated', function (e) {
         _this3.getMessages(); // 全メッセージを再読込
@@ -11685,9 +11773,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -11776,6 +11861,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -11792,6 +11878,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //  チャットルームを取得する
     getChatroom: function getChatroom() {
       var _this = this;
 
@@ -11803,6 +11890,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.commit("setLoading", false);
       });
     },
+    //  パスワードが設定されているか確認する
     isPassword: function isPassword(room) {
       this.choice_room = room;
 
@@ -11812,6 +11900,7 @@ __webpack_require__.r(__webpack_exports__);
         this.enterRoom();
       }
     },
+    //  チャットルームへの入室処理
     enterRoom: function enterRoom() {
       var _this2 = this;
 
@@ -11825,6 +11914,7 @@ __webpack_require__.r(__webpack_exports__);
         self.$router.push('/chatroom/' + _this2.choice_room.id);
       });
     },
+    //  パスワード認証
     passwordAuth: function passwordAuth() {
       if (this.input_password) {
         var self = this;
@@ -16306,6 +16396,25 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=style&index=0&lang=scss&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App.vue?vue&type=style&index=0&lang=scss& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "::-webkit-scrollbar {\n  width: 10px;\n}\n::-webkit-scrollbar-track {\n  background: #fff;\n  border: none;\n  border-radius: 10px;\n  box-shadow: inset 0 0 2px #777;\n}\n::-webkit-scrollbar-thumb {\n  background: #ccc;\n  border-radius: 10px;\n  box-shadow: none;\n}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -75149,6 +75258,36 @@ function t(t,n,r){return void 0===(t=(n.split?n.split("."):n).reduce(function(t,
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=style&index=0&lang=scss&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App.vue?vue&type=style&index=0&lang=scss& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/postcss-loader/src??ref--7-2!../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../node_modules/vue-loader/lib??vue-loader-options!./App.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=style&index=0&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=style&index=0&id=53ab54d2&lang=scss&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modal.vue?vue&type=style&index=0&id=53ab54d2&lang=scss&scoped=true& ***!
@@ -75785,7 +75924,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "container",
+          staticClass: "container pl-1 pr-1",
           staticStyle: { "margin-top": "70px", position: "relative" }
         },
         [_c("RouterView")],
@@ -76048,108 +76187,173 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "app" } }, [
-    _c(
-      "div",
-      {
-        staticStyle: { overflow: "auto" },
-        style: { height: this.content_height + "px" },
-        attrs: { id: "log" }
-      },
-      _vm._l(_vm.messages, function(m) {
-        return _c("div", [
-          _c(
-            "div",
-            {
-              staticClass: "d-flex",
-              class:
-                _vm.$store.getters.getUser.id === m.user_id
-                  ? "justify-content-end"
-                  : "justify-content-start"
-            },
-            [
-              _c(
-                "div",
-                {
-                  staticClass: "toast mb-2",
-                  staticStyle: { opacity: "1", "max-width": "700px" }
-                },
-                [
-                  _c("div", { staticClass: "toast-header" }, [
-                    _c("strong", { staticClass: "mr-auto" }, [
-                      _vm._v(_vm._s(m.user_name))
-                    ]),
-                    _vm._v(" "),
-                    _c("small", { staticClass: "ml-2" }, [
-                      _vm._v(
-                        _vm._s(_vm._f("moment")(m.created_at, "from", "now"))
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: !_vm.$store.getters.getLoading,
+          expression: "!$store.getters.getLoading"
+        }
+      ],
+      attrs: { id: "app" }
+    },
+    [
+      _vm.room_timelimit ? _c("div", [_vm._m(0)]) : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticStyle: { overflow: "auto" },
+          style: { height: this.content_height + "px" },
+          attrs: { id: "log" }
+        },
+        _vm._l(_vm.messages, function(m) {
+          return _c("div", [
+            m.isNotification
+              ? _c("div", [
                   _c(
                     "div",
                     {
-                      ref: "hogehoge",
-                      refInFor: true,
-                      staticClass: "toast-body"
+                      staticClass: "toast mb-2 text-center mx-auto",
+                      staticStyle: { opacity: "1", "max-width": "300px" }
                     },
                     [
-                      _vm._v(
-                        "\n            " + _vm._s(m.message) + "\n          "
+                      _c(
+                        "div",
+                        { staticClass: "toast-body bg-secondary text-white" },
+                        [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "m-0",
+                              staticStyle: { "white-space": "pre-line" }
+                            },
+                            [_vm._v(_vm._s(m.message))]
+                          )
+                        ]
                       )
                     ]
                   )
-                ]
-              )
-            ]
-          )
-        ])
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c("form", { staticClass: "footer" }, [
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.message,
-            expression: "message"
-          }
-        ],
-        staticClass: "form-controll col",
-        staticStyle: { resize: "none" },
-        attrs: { rows: "2", type: "text" },
-        domProps: { value: _vm.message },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.message = $event.target.value
-          }
-        }
-      }),
+                ])
+              : _c("div", [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "d-flex",
+                      class:
+                        _vm.$store.getters.getUser.id === m.user_id
+                          ? "justify-content-end"
+                          : "justify-content-start"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "toast mb-2",
+                          staticStyle: { opacity: "1", "max-width": "700px" }
+                        },
+                        [
+                          _c("div", { staticClass: "toast-header" }, [
+                            _c("strong", { staticClass: "mr-auto" }, [
+                              _vm._v(_vm._s(m.user_name))
+                            ]),
+                            _vm._v(" "),
+                            _c("small", { staticClass: "ml-2" }, [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("moment")(m.created_at, "from", "now")
+                                )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "toast-body" }, [
+                            _c(
+                              "p",
+                              {
+                                staticClass: "m-0",
+                                staticStyle: { "white-space": "pre-line" }
+                              },
+                              [_vm._v(_vm._s(m.message))]
+                            )
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ])
+          ])
+        }),
+        0
+      ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary col",
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.send()
-            }
-          }
-        },
-        [_vm._v("送信")]
-      )
-    ])
-  ])
+      !_vm.room_timelimit
+        ? _c("form", [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.message,
+                  expression: "message"
+                }
+              ],
+              staticClass: "form-controll col",
+              staticStyle: { resize: "none" },
+              attrs: { rows: "2", type: "text" },
+              domProps: { value: _vm.message },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.message = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary col",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.send()
+                  }
+                }
+              },
+              [_vm._v("送信")]
+            )
+          ])
+        : _vm._e()
+    ]
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast mb-2 text-center mx-auto",
+        staticStyle: { opacity: "1", "max-width": "700px" }
+      },
+      [
+        _c("div", { staticClass: "toast-body bg-secondary text-white" }, [
+          _vm._v("\n        このチャットルームは終了しています "),
+          _c("br"),
+          _vm._v("　新たな書き込みはできません\n      ")
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -76213,7 +76417,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
+          staticClass: "btn btn-primary col-md-2",
           attrs: { type: "button" },
           on: {
             click: function($event) {
@@ -76221,7 +76425,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Submit")]
+        [_vm._v("決定")]
       )
     ])
   ])
@@ -76252,99 +76456,81 @@ var render = function() {
     _c("h1", [_vm._v("roomcreate")]),
     _vm._v(" "),
     _c("form", [
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-md-2 col-form-label",
-            attrs: { for: "room_name" }
-          },
-          [_vm._v("ルーム名")]
-        ),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "room_name" } }, [_vm._v("ルーム名")]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.room_name,
-                expression: "room_name"
-              }
-            ],
-            staticClass: "form-control",
-            class: { "is-invalid": _vm.room_name_valid },
-            attrs: {
-              placeholder: this.$store.getters.getUser.name + "の部屋",
-              type: "text",
-              id: "room_name"
-            },
-            domProps: { value: _vm.room_name },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.room_name = $event.target.value
-              }
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.room_name,
+              expression: "room_name"
             }
-          }),
-          _vm._v(" "),
-          _vm.room_name_valid
-            ? _c("small", { staticClass: "invalid-feedback" }, [
-                _vm._v("最大文字数を超えています")
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("small", { staticClass: "text-muted" }, [
-            _vm._v("最大100文字まで入力できます")
-          ])
+          ],
+          staticClass: "form-control",
+          class: { "is-invalid": _vm.room_name_valid },
+          attrs: {
+            placeholder: this.$store.getters.getUser.name + "の部屋",
+            type: "text",
+            id: "room_name"
+          },
+          domProps: { value: _vm.room_name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.room_name = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.room_name_valid
+          ? _c("small", { staticClass: "invalid-feedback" }, [
+              _vm._v("最大文字数を超えています")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("small", { staticClass: "text-muted" }, [
+          _vm._v("最大100文字まで入力できます")
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-md-2 col-form-label",
-            attrs: { for: "password" }
-          },
-          [_vm._v("パスワード")]
-        ),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "password" } }, [_vm._v("パスワード")]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.password,
-                expression: "password"
-              }
-            ],
-            staticClass: "form-control",
-            class: { "is-invalid": _vm.password_valid },
-            attrs: { type: "text", id: "password" },
-            domProps: { value: _vm.password },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.password = $event.target.value
-              }
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.password,
+              expression: "password"
             }
-          }),
-          _vm._v(" "),
-          _vm.password_valid
-            ? _c("small", { staticClass: "invalid-feedback" }, [
-                _vm._v("最大文字数を超えています")
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("small", { staticClass: "text-muted" }, [
-            _vm._v("パスワードを設定できます(任意)")
-          ])
+          ],
+          staticClass: "form-control",
+          class: { "is-invalid": _vm.password_valid },
+          attrs: { type: "text", id: "password" },
+          domProps: { value: _vm.password },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.password = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.password_valid
+          ? _c("small", { staticClass: "invalid-feedback" }, [
+              _vm._v("最大文字数を超えています")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("small", { staticClass: "text-muted" }, [
+          _vm._v("パスワードを設定できます(任意)")
         ])
       ]),
       _vm._v(" "),
@@ -76425,54 +76611,62 @@ var render = function() {
         ? _c(
             "div",
             {
-              staticClass: "row",
+              staticClass: "card-group",
               staticStyle: { overflow: "auto" },
               style: { height: this.content_height + "px" }
             },
             _vm._l(_vm.chat_rooms, function(room) {
-              return _c("div", { staticClass: "col-lg-4 pb-2" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c(
-                    "div",
-                    { staticClass: "card-body position-relative" },
-                    [
-                      room.password
-                        ? _c("font-awesome-icon", {
-                            staticClass: "position-absolute",
-                            staticStyle: { top: "5px", left: "5px" },
-                            attrs: { icon: "lock" }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "card-title" }, [
-                        _vm._v(_vm._s(room.room_name))
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "card-text" }, [
-                        _c("small", [
-                          _vm._v("部屋主: " + _vm._s(room.host_user))
-                        ])
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-footer bg-white d-flex" }, [
+              return _c(
+                "div",
+                {
+                  staticClass: "col-lg-4 pb-2 p-0",
+                  staticStyle: { "box-sizing": "border-box" }
+                },
+                [
+                  _c("div", { staticClass: "card" }, [
                     _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary col-8",
-                        on: {
-                          click: function($event) {
-                            return _vm.isPassword(room)
+                      "div",
+                      { staticClass: "card-body position-relative" },
+                      [
+                        room.password
+                          ? _c("font-awesome-icon", {
+                              staticClass: "position-absolute",
+                              staticStyle: { top: "5px", left: "5px" },
+                              attrs: { icon: "lock" }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("h5", { staticClass: "card-title" }, [
+                          _vm._v(_vm._s(room.room_name))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" }, [
+                          _c("small", [
+                            _vm._v("部屋主: " + _vm._s(room.host_user))
+                          ])
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-footer bg-white" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-primary col-lg-8 d-block mx-auto",
+                          on: {
+                            click: function($event) {
+                              return _vm.isPassword(room)
+                            }
                           }
-                        }
-                      },
-                      [_vm._v("入室")]
-                    )
+                        },
+                        [_vm._v("入室")]
+                      )
+                    ])
                   ])
-                ])
-              ])
+                ]
+              )
             }),
             0
           )
@@ -97304,7 +97498,9 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App_vue_vue_type_template_id_f348271a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=f348271a& */ "./resources/js/App.vue?vue&type=template&id=f348271a&");
 /* harmony import */ var _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue?vue&type=script&lang=js& */ "./resources/js/App.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/App.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -97312,7 +97508,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _App_vue_vue_type_template_id_f348271a___WEBPACK_IMPORTED_MODULE_0__["render"],
   _App_vue_vue_type_template_id_f348271a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -97341,6 +97537,22 @@ component.options.__file = "resources/js/App.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./App.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/App.vue?vue&type=style&index=0&lang=scss&":
+/*!****************************************************************!*\
+  !*** ./resources/js/App.vue?vue&type=style&index=0&lang=scss& ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/style-loader!../../node_modules/css-loader!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/postcss-loader/src??ref--7-2!../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../node_modules/vue-loader/lib??vue-loader-options!./App.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -97505,12 +97717,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   key: 'd525c0695570725833ac',
   cluster: 'mt1',
   forceTLS: true
-}); //   window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     encrypted: true
-// });
+});
 
 /***/ }),
 
@@ -98116,7 +98323,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     next();
-  } // //  入室した部屋のみ入れるように
+  } //  入室した部屋のみ入れるように
 
 
   if (to.params.id) {
@@ -98125,10 +98332,7 @@ router.beforeEach(function (to, from, next) {
       user_id: user.id,
       room_id: to.params.id
     };
-    console.log(params);
     axios.post(url, params).then(function (response) {
-      console.log(response);
-
       if (response.data) {
         next();
       } else {
@@ -98157,7 +98361,6 @@ router.afterEach(function () {
 __webpack_require__.r(__webpack_exports__);
 var state = {
   loading: true,
-  entering: false,
   user: {
     name: '',
     id: ''
@@ -98167,25 +98370,19 @@ var getters = {
   getLoading: function getLoading(state) {
     return state.loading;
   },
-  getEntering: function getEntering(state) {
-    return state.entering;
-  },
   getUser: function getUser(state) {
     return state.user;
   }
 };
 var mutations = {
   stateInit: function stateInit(state) {
-    state.loading = true, state.entering = false, state.user = {
+    state.loading = true, state.user = {
       name: '',
       id: ''
     };
   },
   setLoading: function setLoading(state, payload) {
     state.loading = payload;
-  },
-  setEntering: function setEntering(state, payload) {
-    state.entering = payload;
   },
   setUser: function setUser(state, payload) {
     state.user.name = payload.name;

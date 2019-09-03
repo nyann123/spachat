@@ -7,17 +7,17 @@
     </RouterLink>
     <button @click="getChatroom()" class="btn btn-outline-primary">更新する</button>
   </div>
-  <div class="row" :style="{ height: this.content_height + 'px' }" style="overflow: auto;" v-if="!$store.getters.getLoading">
-    <div class="col-lg-4 pb-2" v-for="room in chat_rooms">
+
+  <div v-if="!$store.getters.getLoading" class="card-group" :style="{ height: this.content_height + 'px' }" style="overflow:auto">
+    <div class="col-lg-4 pb-2 p-0" v-for="room in chat_rooms" style="box-sizing:border-box">
       <div class="card">
         <div class="card-body position-relative">
           <font-awesome-icon v-if="room.password" icon="lock" class="position-absolute" style="top:5px; left:5px;" />
           <h5 class="card-title">{{ room.room_name }}</h5>
           <p class="card-text"><small>部屋主: {{ room.host_user }}</small></p>
         </div>
-        <div class="card-footer bg-white d-flex">
-          <button @click="isPassword(room)" class="btn btn-primary col-8">入室</button>
-          <!-- <p class="col-4 text-center">0/20人</p> -->
+        <div class="card-footer bg-white">
+          <button @click="isPassword(room)" class="btn btn-primary col-lg-8 d-block mx-auto">入室</button>
         </div>
       </div>
     </div>
@@ -37,6 +37,7 @@
 
 </template>
 
+
 <script>
 import Modal from '../components/Modal.vue'
 
@@ -54,6 +55,8 @@ export default {
     }
   },
   methods: {
+
+    //  チャットルームを取得する
     getChatroom() {
 
       this.$store.commit("setLoading", true);
@@ -68,6 +71,7 @@ export default {
       });
     },
 
+    //  パスワードが設定されているか確認する
     isPassword(room) {
       this.choice_room = room;
       if(room.password){
@@ -77,6 +81,7 @@ export default {
       }
     },
 
+    //  チャットルームへの入室処理
     enterRoom(){
       const self = this;
       const url ='ajax/enterroom';
@@ -89,6 +94,7 @@ export default {
         })
     },
 
+    //  パスワード認証
     passwordAuth(){
       if(this.input_password){
 

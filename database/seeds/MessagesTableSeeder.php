@@ -19,6 +19,7 @@ class MessagesTableSeeder extends Seeder
                 'room_id' => 1,
                 'user_id' => $i,
                 'user_name' => $i . 'さん',
+                'isNotification' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

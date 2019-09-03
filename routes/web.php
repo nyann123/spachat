@@ -22,6 +22,7 @@ Route::post('ajax/room', 'Ajax\RoomController@create'); //チャットルーム�
 Route::post('ajax/enterroom', 'Ajax\EnterRoom'); //チャットルーム入室処理
 Route::post('ajax/isEntering', 'Ajax\isEntering');  //チャットルーム入室確認
 
+Route::post('ajax/roomlimit', 'Ajax\CheckRoomLimit');   //チャットルームの制限時間確認
 Route::post('ajax/roomauth', 'Ajax\RoomAuth');   //チャットルームのパスワード認証
 
 Route::get('/{any?}', function () {

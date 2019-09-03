@@ -10,13 +10,16 @@ class isEntering extends Controller
     public function __invoke(Request $request)
     {
 
-        $data = \App\User::select('room')->find($request->user_id);
+        $exists = \App\EnteredRoom::where('room_id', $request->room_id)
+                                    ->where('user_id', $request->user_id)
+                                    ->exists();
 
-        if( $data->room == $request->room_id ){
+        if($exists){
             return 1;
         }else{
             return 0;
         }
+
     }
 
 }

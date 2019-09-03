@@ -1,28 +1,25 @@
 <template>
   <div id="app">
     <h1>roomcreate</h1>
+
     <form>
-      <div class="form-group row">
-        <label for="room_name" class="col-md-2 col-form-label">ルーム名</label>
-        <div class="col-md-6">
-          <input v-model="room_name" :placeholder="this.$store.getters.getUser.name + 'の部屋'" type="text" class="form-control" :class="{ 'is-invalid': room_name_valid }" id="room_name">
-          <small v-if="room_name_valid" class="invalid-feedback">最大文字数を超えています</small>
-          <small class="text-muted">最大100文字まで入力できます</small>
-        </div>
+      <div class="form-group">
+        <label for="room_name">ルーム名</label>
+        <input v-model="room_name" :placeholder="this.$store.getters.getUser.name + 'の部屋'" type="text" class="form-control" :class="{ 'is-invalid': room_name_valid }" id="room_name">
+        <small v-if="room_name_valid" class="invalid-feedback">最大文字数を超えています</small>
+        <small class="text-muted">最大100文字まで入力できます</small>
       </div>
 
-      <div class="form-group row">
-        <label for="password" class="col-md-2 col-form-label">パスワード</label>
-        <div class="col-md-6">
-          <input v-model="password" type="text" class="form-control" :class="{ 'is-invalid': password_valid }" id="password">
-          <small v-if="password_valid" class="invalid-feedback">最大文字数を超えています</small>
-          <small class="text-muted">パスワードを設定できます(任意)</small>
-        </div>
+      <div class="form-group">
+        <label for="password">パスワード</label>
+        <input v-model="password" type="text" class="form-control" :class="{ 'is-invalid': password_valid }" id="password">
+        <small v-if="password_valid" class="invalid-feedback">最大文字数を超えています</small>
+        <small class="text-muted">パスワードを設定できます(任意)</small>
       </div>
 
      <button @click="create_room()" type="button" class="btn btn-primary col-md-2">作成する</button>
     </form>
-
+    
   </div>
 </template>
 

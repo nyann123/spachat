@@ -10,7 +10,15 @@ class EnterRoom extends Controller
     public function __invoke(Request $request)
     {
 
-        \App\User::where('id', $request->user_id)->update(['room' => $request->room_id]);
+        //  データが存在しなければ新規登録
+        \App\EnteredRoom::firstOrCreate([
+            'user_id' => $request->user_id,
+            'room_id' => $request->room_id,
+        ],[
+            'user_id' => $request->user_id,
+            'room_id' => $request->room_id,
+        ]);
+
 
     }
 }

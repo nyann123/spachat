@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
 
-  // //  入室した部屋のみ入れるように
+  //  入室した部屋のみ入れるように
   if(to.params.id){
     const url ='ajax/isEntering';
     const params = {  user_id : user.id,
@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
         next('/Top')
       }
     })
-      
+  
   }
 
 })

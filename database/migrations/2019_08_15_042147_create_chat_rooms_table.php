@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Carbon;
 
 class CreateChatRoomsTable extends Migration
 {
@@ -18,7 +19,9 @@ class CreateChatRoomsTable extends Migration
             $table->string('room_name');
             $table->string('host_user');
             $table->string('password')->nullable();
-            $table->timestamps();
+            $table->dateTime('limit_at');
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

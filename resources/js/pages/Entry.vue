@@ -8,7 +8,7 @@
         <small v-if="name_valid" class="invalid-feedback">最大文字数を超えています</small>
         <small class="text-muted">最大15文字</small>
       </div>
-      <button @click="entry()" type="button" class="btn btn-primary">Submit</button>
+      <button @click="entry()" type="button" class="btn btn-primary col-md-2">決定</button>
     </form>
   </div>
 </template>
