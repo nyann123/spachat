@@ -98309,7 +98309,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
 });
 router.beforeEach(function (to, from, next) {
-  _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", true);
+  // store.commit("setLoading", true);
   var user = _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser; //　アクセス制限
   //  名前が未設定なら設定ページへ
 
@@ -98341,8 +98341,7 @@ router.beforeEach(function (to, from, next) {
     });
   }
 });
-router.afterEach(function () {
-  _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false);
+router.afterEach(function () {// store.commit("setLoading", false);
 }); // VueRouterインスタンスをエクスポートする
 // app.jsでインポートするため
 
