@@ -24,7 +24,6 @@ class ChatController extends Controller
         //  制限時間内であればメッセージ登録処理
         if(\App\ChatRoom::where('id', $request->room_id)->where('limit_at', '>', $now)->exists()){
 
-            // ref! バリデーション
             // メッセージを登録
             $message = \App\Message::create([
                 'message' => $request->message,
