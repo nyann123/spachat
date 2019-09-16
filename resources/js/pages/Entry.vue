@@ -29,18 +29,20 @@ export default {
   methods: {   
 
     entry() {
-      if(!this.name_valid){
-
-        this.$store.commit('stateInit');
-        const url = 'ajax/entry';
-        const params = { name: this.name };
-        axios.post(url, params)
-          .then((response) => {
+      if(this.name){
+        if(!this.name_valid){
   
-        // 成功したらページ移動
-        this.$store.commit({type:'setUser', name: this.name, id:response.data});
-        this.$router.push('Top');
-       });
+          this.$store.commit('stateInit');
+          const url = 'ajax/entry';
+          const params = { name: this.name };
+          axios.post(url, params)
+            .then((response) => {
+    
+          // 成功したらページ移動
+          this.$store.commit({type:'setUser', name: this.name, id:response.data});
+          this.$router.push('Top');
+         });
+        }
       }
     }
   },

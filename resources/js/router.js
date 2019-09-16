@@ -40,8 +40,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
-  // store.commit("setLoading", true);
+  store.commit("setLoading", false);
   const user = store.getters.getUser
 
   //　アクセス制限
@@ -74,10 +73,6 @@ router.beforeEach((to, from, next) => {
   
   }
 
-})
-
-router.afterEach(() => {
-  // store.commit("setLoading", false);
 })
 
 // VueRouterインスタンスをエクスポートする
