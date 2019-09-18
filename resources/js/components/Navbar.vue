@@ -27,8 +27,5 @@
       }
 
     },
-    mounted(){
-      const header = this.$el.querySelector('.navbar');
-    }
   }
 </script>

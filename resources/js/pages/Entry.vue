@@ -32,9 +32,10 @@ export default {
       if(this.name){
         if(!this.name_valid){
   
-          this.$store.commit('stateInit');
           const url = 'ajax/entry';
-          const params = { name: this.name };
+          const params = { user_name: this.name,
+                           user_id: this.$store.getters.getUser.id || '',
+                           };
           axios.post(url, params)
             .then((response) => {
     

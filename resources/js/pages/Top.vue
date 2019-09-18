@@ -1,11 +1,23 @@
 <template>
 <div id="app">
   <div class="headar pb-3">
-    <h1>Top</h1>
-    <RouterLink to="/roomcreate" class="btn btn-outline-primary mr-3">
-      新しい部屋を作る
-    </RouterLink>
-    <button @click="getChatroom()" class="btn btn-outline-primary">更新する</button>
+    <h2>Top</h2>
+
+    <div v-if="histry">
+      <RouterLink to="/roomcreate" class="btn btn-outline-primary mr-2">
+        新しい部屋を作る
+      </RouterLink>
+      <button @click="getRoom()" class="btn btn-outline-primary float-right">部屋一覧</button>
+    </div>
+
+    <div v-else>
+      <RouterLink to="/roomcreate" class="btn btn-outline-primary mr-2">
+        新しい部屋を作る
+      </RouterLink>
+      <button @click="getRoom()" class="btn btn-outline-primary">更新する</button>
+      <button @click="getRoomHistry()" class="btn btn-outline-primary float-right">履歴</button>
+    </div>
+
   </div>
 
   <div v-if="!$store.getters.getLoading" class="card-group" :style="{ height: this.content_height + 'px' }" style="overflow:auto">
@@ -49,6 +61,7 @@ export default {
       chat_rooms: [],
       content_height: 0,
       modal: false,
+      histry: false,
       input_password: '',
       input_password_valid: false,
       choice_room: '',
@@ -57,14 +70,30 @@ export default {
   methods: {
 
     //  チャットルームを取得する
-    getChatroom() {
-
+    getRoom() {
+      this.histry = false;
       this.$store.commit("setLoading", true);
 
       const url ='ajax/room';
       axios.get(url)
         .then((response) => {
 
+        this.chat_rooms = response.data;
+
+        this.$store.commit("setLoading", false);
+      });
+    },
+
+    //  過去に入室したことのあるチャットルームを取得する
+    getRoomHistry(){
+      this.histry = true;
+      this.$store.commit("setLoading", true);
+
+      const url ='ajax/roomHistry';
+      const params ={user_id: this.$store.getters.getUser.id};
+      axios.post(url, params)
+        .then((response) => {
+        
         this.chat_rooms = response.data;
 
         this.$store.commit("setLoading", false);
@@ -136,7 +165,7 @@ export default {
   },
 
   mounted(){
-    this.getChatroom();
+    this.getRoom();
 
     this.handleResize();
     window.addEventListener('resize', this.handleResize);

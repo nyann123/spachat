@@ -19,6 +19,26 @@ class RoomController extends Controller
 
     }
 
+    public function histry(Request $request){
+        
+        //  入室済みのチャットルームを取得
+        $EnteredRooms = \App\EnteredRoom::where('user_id', $request->user_id)->get();
+        
+        if( count($EnteredRooms) ){
+
+            //  チャットルームのidを配列に格納
+            foreach ($EnteredRooms as $EnteredRoom){
+                $rooms[] = $EnteredRoom->room_id;
+            }
+
+            //  チャットルームを取得して返す
+            return \App\ChatRoom::whereIn('id', $rooms)
+                                ->orderBy('id', 'desc')->get();
+
+        }
+
+    }
+
     public function create(Request $request){
 
         //  チャットルームの制限時間
@@ -50,7 +70,6 @@ class RoomController extends Controller
             'user_name' => '',
             'isNotification' => 1,
         ]);
-        
         
         //  チャットルームを作成したユーザーを入室させる
         \App\EnteredRoom::create([

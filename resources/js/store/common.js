@@ -17,13 +17,13 @@ const getters = {
 }
 
 const mutations = {
-  stateInit(state){
-    state.loading = true,
-    state.user = {
-      name: '',
-      id: '',
-    }
-  },
+  // stateInit(state){
+  //   state.loading = true,
+  //   state.user = {
+  //     name: '',
+  //     id: '',
+  //   }
+  // },
 
   setLoading(state, payload) {
     state.loading = payload;

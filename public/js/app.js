@@ -11475,9 +11475,6 @@ __webpack_require__.r(__webpack_exports__);
     username: function username() {
       return this.$store.getters.getUser.name;
     }
-  },
-  mounted: function mounted() {
-    var header = this.$el.querySelector('.navbar');
   }
 });
 
@@ -11718,10 +11715,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.name) {
         if (!this.name_valid) {
-          this.$store.commit('stateInit');
           var url = 'ajax/entry';
           var params = {
-            name: this.name
+            user_name: this.name,
+            user_id: this.$store.getters.getUser.id || ''
           };
           axios.post(url, params).then(function (response) {
             // 成功したらページ移動
@@ -11864,6 +11861,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -11874,6 +11883,7 @@ __webpack_require__.r(__webpack_exports__);
       chat_rooms: [],
       content_height: 0,
       modal: false,
+      histry: false,
       input_password: '',
       input_password_valid: false,
       choice_room: ''
@@ -11881,15 +11891,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     //  チャットルームを取得する
-    getChatroom: function getChatroom() {
+    getRoom: function getRoom() {
       var _this = this;
 
+      this.histry = false;
       this.$store.commit("setLoading", true);
       var url = 'ajax/room';
       axios.get(url).then(function (response) {
         _this.chat_rooms = response.data;
 
         _this.$store.commit("setLoading", false);
+      });
+    },
+    //  過去に入室したことのあるチャットルームを取得する
+    getRoomHistry: function getRoomHistry() {
+      var _this2 = this;
+
+      this.histry = true;
+      this.$store.commit("setLoading", true);
+      var url = 'ajax/roomHistry';
+      var params = {
+        user_id: this.$store.getters.getUser.id
+      };
+      axios.post(url, params).then(function (response) {
+        _this2.chat_rooms = response.data;
+
+        _this2.$store.commit("setLoading", false);
       });
     },
     //  パスワードが設定されているか確認する
@@ -11904,7 +11931,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //  チャットルームへの入室処理
     enterRoom: function enterRoom() {
-      var _this2 = this;
+      var _this3 = this;
 
       var self = this;
       var url = 'ajax/enterroom';
@@ -11913,7 +11940,7 @@ __webpack_require__.r(__webpack_exports__);
         room_id: this.choice_room.id
       };
       axios.post(url, params).then(function (response) {
-        self.$router.push('/chatroom/' + _this2.choice_room.id);
+        self.$router.push('/chatroom/' + _this3.choice_room.id);
       });
     },
     //  パスワード認証
@@ -11949,7 +11976,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.getChatroom();
+    this.getRoom();
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
   }
@@ -76578,36 +76605,78 @@ var render = function() {
     "div",
     { attrs: { id: "app" } },
     [
-      _c(
-        "div",
-        { staticClass: "headar pb-3" },
-        [
-          _c("h1", [_vm._v("Top")]),
-          _vm._v(" "),
-          _c(
-            "RouterLink",
-            {
-              staticClass: "btn btn-outline-primary mr-3",
-              attrs: { to: "/roomcreate" }
-            },
-            [_vm._v("\r\n      新しい部屋を作る\r\n    ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-primary",
-              on: {
-                click: function($event) {
-                  return _vm.getChatroom()
-                }
-              }
-            },
-            [_vm._v("更新する")]
-          )
-        ],
-        1
-      ),
+      _c("div", { staticClass: "headar pb-3" }, [
+        _c("h2", [_vm._v("Top")]),
+        _vm._v(" "),
+        _vm.histry
+          ? _c(
+              "div",
+              [
+                _c(
+                  "RouterLink",
+                  {
+                    staticClass: "btn btn-outline-primary mr-2",
+                    attrs: { to: "/roomcreate" }
+                  },
+                  [_vm._v("\r\n        新しい部屋を作る\r\n      ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary float-right",
+                    on: {
+                      click: function($event) {
+                        return _vm.getRoom()
+                      }
+                    }
+                  },
+                  [_vm._v("部屋一覧")]
+                )
+              ],
+              1
+            )
+          : _c(
+              "div",
+              [
+                _c(
+                  "RouterLink",
+                  {
+                    staticClass: "btn btn-outline-primary mr-2",
+                    attrs: { to: "/roomcreate" }
+                  },
+                  [_vm._v("\r\n        新しい部屋を作る\r\n      ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.getRoom()
+                      }
+                    }
+                  },
+                  [_vm._v("更新する")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary float-right",
+                    on: {
+                      click: function($event) {
+                        return _vm.getRoomHistry()
+                      }
+                    }
+                  },
+                  [_vm._v("履歴")]
+                )
+              ],
+              1
+            )
+      ]),
       _vm._v(" "),
       !_vm.$store.getters.getLoading
         ? _c(
@@ -98374,12 +98443,13 @@ var getters = {
   }
 };
 var mutations = {
-  stateInit: function stateInit(state) {
-    state.loading = true, state.user = {
-      name: '',
-      id: ''
-    };
-  },
+  // stateInit(state){
+  //   state.loading = true,
+  //   state.user = {
+  //     name: '',
+  //     id: '',
+  //   }
+  // },
   setLoading: function setLoading(state, payload) {
     state.loading = payload;
   },
