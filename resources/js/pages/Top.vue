@@ -1,8 +1,7 @@
 <template>
 <div id="app">
-  <div class="headar pb-3">
-    <h2>Top</h2>
-
+  <div class="headar pb-1">
+    
     <div v-if="histry">
       <RouterLink to="/roomcreate" class="btn btn-outline-primary mr-2">
         新しい部屋を作る
@@ -18,11 +17,17 @@
       <button @click="getRoomHistry()" class="btn btn-outline-primary float-right">履歴</button>
     </div>
 
+    <form>
+      <div class="form-group pt-1 m-0">
+        <input v-model="search_word" type="text" class="form-control" placeholder="検索する">
+      </div>
+    </form>
+
   </div>
 
   <div v-if="!$store.getters.getLoading" class="card-group" :style="{ height: this.content_height + 'px' }" style="overflow:auto">
-    <div class="col-lg-4 pb-2 p-0" v-for="room in chat_rooms" style="box-sizing:border-box">
-      <div class="card">
+    <div v-for="room in filteredRooms" class="col-lg-4 pb-2 p-0"  style="box-sizing:border-box">
+      <div class="card mr-1">
         <div class="card-body position-relative">
           <font-awesome-icon v-if="room.password" icon="lock" class="position-absolute" style="top:5px; left:5px;" />
           <h5 class="card-title">{{ room.room_name }}</h5>
@@ -58,6 +63,7 @@ export default {
 
   data: function(){
     return{
+      search_word: '',
       chat_rooms: [],
       content_height: 0,
       modal: false,
@@ -65,6 +71,20 @@ export default {
       input_password: '',
       input_password_valid: false,
       choice_room: '',
+    }
+  },
+  computed: {
+    filteredRooms: function () { 
+        var data = this.chat_rooms;
+        var search_word = this.search_word && this.search_word.toLowerCase();
+        if(search_word) {
+            data = data.filter(function (row) {
+                return Object.keys(row).some(function () {
+                    return String(row.room_name).toLowerCase().indexOf(search_word) > -1
+                })
+            })
+        }
+        return data;
     }
   },
   methods: {
@@ -149,7 +169,7 @@ export default {
     //　コンテンツのサイズ調整
     handleResize() {
       const head_height = this.$el.querySelector(".headar").clientHeight
-      this.content_height = window.innerHeight - head_height - 85;
+      this.content_height = window.innerHeight - head_height - 75;
     },
 
     openModal() {

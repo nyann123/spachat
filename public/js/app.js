@@ -11772,6 +11772,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -11873,6 +11875,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -11880,6 +11887,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      search_word: '',
       chat_rooms: [],
       content_height: 0,
       modal: false,
@@ -11888,6 +11896,22 @@ __webpack_require__.r(__webpack_exports__);
       input_password_valid: false,
       choice_room: ''
     };
+  },
+  computed: {
+    filteredRooms: function filteredRooms() {
+      var data = this.chat_rooms;
+      var search_word = this.search_word && this.search_word.toLowerCase();
+
+      if (search_word) {
+        data = data.filter(function (row) {
+          return Object.keys(row).some(function () {
+            return String(row.room_name).toLowerCase().indexOf(search_word) > -1;
+          });
+        });
+      }
+
+      return data;
+    }
   },
   methods: {
     //  チャットルームを取得する
@@ -11964,7 +11988,7 @@ __webpack_require__.r(__webpack_exports__);
     //　コンテンツのサイズ調整
     handleResize: function handleResize() {
       var head_height = this.$el.querySelector(".headar").clientHeight;
-      this.content_height = window.innerHeight - head_height - 85;
+      this.content_height = window.innerHeight - head_height - 75;
     },
     openModal: function openModal() {
       this.modal = true;
@@ -76405,11 +76429,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { if: "app" } }, [
-    _c("h1", [_vm._v("Entry")]),
-    _vm._v(" "),
     _c("form", [
       _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "name" } }, [_vm._v("名前")]),
+        _c("label", { attrs: { for: "name" } }, [
+          _vm._v("使用する名前を入力してください")
+        ]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -76482,101 +76506,109 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "app" } }, [
-    _c("h1", [_vm._v("roomcreate")]),
-    _vm._v(" "),
-    _c("form", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "room_name" } }, [_vm._v("ルーム名")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.room_name,
-              expression: "room_name"
+    _c(
+      "form",
+      [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "room_name" } }, [_vm._v("ルーム名")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.room_name,
+                expression: "room_name"
+              }
+            ],
+            staticClass: "form-control",
+            class: { "is-invalid": _vm.room_name_valid },
+            attrs: {
+              placeholder: this.$store.getters.getUser.name + "の部屋",
+              type: "text",
+              id: "room_name"
+            },
+            domProps: { value: _vm.room_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.room_name = $event.target.value
+              }
             }
-          ],
-          staticClass: "form-control",
-          class: { "is-invalid": _vm.room_name_valid },
-          attrs: {
-            placeholder: this.$store.getters.getUser.name + "の部屋",
-            type: "text",
-            id: "room_name"
+          }),
+          _vm._v(" "),
+          _vm.room_name_valid
+            ? _c("small", { staticClass: "invalid-feedback" }, [
+                _vm._v("最大文字数を超えています")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("small", { staticClass: "text-muted" }, [
+            _vm._v("最大100文字まで入力できます")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "password" } }, [_vm._v("パスワード")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.password,
+                expression: "password"
+              }
+            ],
+            staticClass: "form-control",
+            class: { "is-invalid": _vm.password_valid },
+            attrs: { type: "text", id: "password" },
+            domProps: { value: _vm.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.password = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.password_valid
+            ? _c("small", { staticClass: "invalid-feedback" }, [
+                _vm._v("最大文字数を超えています")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("small", { staticClass: "text-muted" }, [
+            _vm._v("パスワードを設定できます(任意)")
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary col-md-2 mb-2",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.create_room()
+              }
+            }
           },
-          domProps: { value: _vm.room_name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.room_name = $event.target.value
-            }
-          }
-        }),
+          [_vm._v("作成する")]
+        ),
         _vm._v(" "),
-        _vm.room_name_valid
-          ? _c("small", { staticClass: "invalid-feedback" }, [
-              _vm._v("最大文字数を超えています")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c("small", { staticClass: "text-muted" }, [
-          _vm._v("最大100文字まで入力できます")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "password" } }, [_vm._v("パスワード")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.password,
-              expression: "password"
-            }
-          ],
-          staticClass: "form-control",
-          class: { "is-invalid": _vm.password_valid },
-          attrs: { type: "text", id: "password" },
-          domProps: { value: _vm.password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.password = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.password_valid
-          ? _c("small", { staticClass: "invalid-feedback" }, [
-              _vm._v("最大文字数を超えています")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c("small", { staticClass: "text-muted" }, [
-          _vm._v("パスワードを設定できます(任意)")
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary col-md-2",
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.create_room()
-            }
-          }
-        },
-        [_vm._v("作成する")]
-      )
-    ])
+        _c(
+          "RouterLink",
+          { staticClass: "btn btn-dark col-md-1 mb-2", attrs: { to: "/top" } },
+          [_vm._v("\n      戻る\n    ")]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -76605,9 +76637,7 @@ var render = function() {
     "div",
     { attrs: { id: "app" } },
     [
-      _c("div", { staticClass: "headar pb-3" }, [
-        _c("h2", [_vm._v("Top")]),
-        _vm._v(" "),
+      _c("div", { staticClass: "headar pb-1" }, [
         _vm.histry
           ? _c(
               "div",
@@ -76675,7 +76705,33 @@ var render = function() {
                 )
               ],
               1
-            )
+            ),
+        _vm._v(" "),
+        _c("form", [
+          _c("div", { staticClass: "form-group pt-1 m-0" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search_word,
+                  expression: "search_word"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "検索する" },
+              domProps: { value: _vm.search_word },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search_word = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
       ]),
       _vm._v(" "),
       !_vm.$store.getters.getLoading
@@ -76686,7 +76742,7 @@ var render = function() {
               staticStyle: { overflow: "auto" },
               style: { height: this.content_height + "px" }
             },
-            _vm._l(_vm.chat_rooms, function(room) {
+            _vm._l(_vm.filteredRooms, function(room) {
               return _c(
                 "div",
                 {
@@ -76694,7 +76750,7 @@ var render = function() {
                   staticStyle: { "box-sizing": "border-box" }
                 },
                 [
-                  _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card mr-1" }, [
                     _c(
                       "div",
                       { staticClass: "card-body position-relative" },

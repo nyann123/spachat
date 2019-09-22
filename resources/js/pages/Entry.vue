@@ -1,9 +1,9 @@
 <template>
   <div if="app">
-    <h1>Entry</h1>
+    <!-- <h1>Entry</h1> -->
     <form>
       <div class="form-group">
-        <label for="name">名前</label>
+        <label for="name">使用する名前を入力してください</label>
         <input v-model="name" type="text" class="form-control" :class="{ 'is-invalid': name_valid }" id="name">
         <small v-if="name_valid" class="invalid-feedback">最大文字数を超えています</small>
         <small class="text-muted">最大15文字</small>

@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>roomcreate</h1>
 
     <form>
       <div class="form-group">
@@ -17,7 +16,10 @@
         <small class="text-muted">パスワードを設定できます(任意)</small>
       </div>
 
-     <button @click="create_room()" type="button" class="btn btn-primary col-md-2">作成する</button>
+      <button @click="create_room()" type="button" class="btn btn-primary col-md-2 mb-2">作成する</button>
+      <RouterLink to="/top" class="btn btn-dark col-md-1 mb-2">
+        戻る
+      </RouterLink>
     </form>
     
   </div>
