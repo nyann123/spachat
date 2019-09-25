@@ -5,14 +5,14 @@
       <div class="form-group">
         <label for="room_name">ルーム名</label>
         <input v-model="room_name" :placeholder="this.$store.getters.getUser.name + 'の部屋'" type="text" class="form-control" :class="{ 'is-invalid': room_name_valid }" id="room_name">
-        <small v-if="room_name_valid" class="invalid-feedback">最大文字数を超えています</small>
+        <small v-if="room_name_valid" class="invalid-feedback">{{this.room_name_valid}}</small>
         <small class="text-muted">最大100文字まで入力できます</small>
       </div>
 
       <div class="form-group">
         <label for="password">パスワード</label>
         <input v-model="password" type="text" class="form-control" :class="{ 'is-invalid': password_valid }" id="password">
-        <small v-if="password_valid" class="invalid-feedback">最大文字数を超えています</small>
+        <small v-if="password_valid" class="invalid-feedback">{{this.password_valid}}</small>
         <small class="text-muted">パスワードを設定できます(任意)</small>
       </div>
 
@@ -38,10 +38,18 @@ export default {
   },
   watch:{
     room_name(){
-      this.room_name_valid = this.room_name.length > 100 ? true :false
+      if(this.room_name.length > 100 ){
+        this.room_name_valid = '最大文字数を超えています';
+      }else{
+        this.room_name_valid = false;
+      }
     },
     password(){
-      this.password_valid = this.password.length > 100 ? true :false
+      if(this.password.length > 100 ){
+        this.password_valid = '最大文字数を超えています';
+      }else{
+        this.password_valid = false;
+      }
     }
   },
   methods:{

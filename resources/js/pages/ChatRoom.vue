@@ -121,7 +121,7 @@ export default {
     },
 
     //　コンテンツのサイズ調整
-    handleResize: function() {
+    handleResize() {
       this.content_height = window.innerHeight -  96/* form */ - 62/* header */ - 13 /* 調整 */;
     },
 

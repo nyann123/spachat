@@ -5,7 +5,7 @@
       <div class="form-group">
         <label for="name">使用する名前を入力してください</label>
         <input v-model="name" type="text" class="form-control" :class="{ 'is-invalid': name_valid }" id="name">
-        <small v-if="name_valid" class="invalid-feedback">最大文字数を超えています</small>
+        <small v-if="name_valid" class="invalid-feedback">{{this.name_valid}}</small>
         <small class="text-muted">最大15文字</small>
       </div>
       <button @click="entry()" type="button" class="btn btn-primary col-md-2">決定</button>
@@ -23,7 +23,11 @@ export default {
   },
   watch:{
     name(){
-      this.name_valid = this.name.length > 15 ? true :false
+      if(this.name.length > 15 ){
+        this.name_valid = '最大文字数を超えています';
+      }else{
+        this.name_valid = false;
+      }
     }
   },
   methods: {   

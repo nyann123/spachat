@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="headar pb-1">
-    
+
     <div v-if="histry">
       <RouterLink to="/roomcreate" class="btn btn-outline-primary mr-2">
         新しい部屋を作る
@@ -74,7 +74,7 @@ export default {
     }
   },
   computed: {
-    filteredRooms: function () { 
+    filteredRooms() { 
         var data = this.chat_rooms;
         var search_word = this.search_word && this.search_word.toLowerCase();
         if(search_word) {

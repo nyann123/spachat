@@ -11706,7 +11706,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     name: function name() {
-      this.name_valid = this.name.length > 15 ? true : false;
+      if (this.name.length > 15) {
+        this.name_valid = '最大文字数を超えています';
+      } else {
+        this.name_valid = false;
+      }
     }
   },
   methods: {
@@ -11785,10 +11789,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     room_name: function room_name() {
-      this.room_name_valid = this.room_name.length > 100 ? true : false;
+      if (this.room_name.length > 100) {
+        this.room_name_valid = '最大文字数を超えています';
+      } else {
+        this.room_name_valid = false;
+      }
     },
     password: function password() {
-      this.password_valid = this.password.length > 100 ? true : false;
+      if (this.password.length > 100) {
+        this.password_valid = '最大文字数を超えています';
+      } else {
+        this.password_valid = false;
+      }
     }
   },
   methods: {
@@ -76460,7 +76472,7 @@ var render = function() {
         _vm._v(" "),
         _vm.name_valid
           ? _c("small", { staticClass: "invalid-feedback" }, [
-              _vm._v("最大文字数を超えています")
+              _vm._v(_vm._s(this.name_valid))
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -76541,7 +76553,7 @@ var render = function() {
           _vm._v(" "),
           _vm.room_name_valid
             ? _c("small", { staticClass: "invalid-feedback" }, [
-                _vm._v("最大文字数を超えています")
+                _vm._v(_vm._s(this.room_name_valid))
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -76578,7 +76590,7 @@ var render = function() {
           _vm._v(" "),
           _vm.password_valid
             ? _c("small", { staticClass: "invalid-feedback" }, [
-                _vm._v("最大文字数を超えています")
+                _vm._v(_vm._s(this.password_valid))
               ])
             : _vm._e(),
           _vm._v(" "),
