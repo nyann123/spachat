@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\MessageCreated;
 
 class EnterRoom extends Controller
 {
@@ -28,13 +29,16 @@ class EnterRoom extends Controller
             ]);
             
             //  通知を作成
-            \App\Message::create([
-                'message' => $user->name.'が参加しました。',
-                'room_id' => $request->room_id,
-                'user_id' => 0,
-                'user_name' => '',
-                'isNotification' => 1,
+            $message = \App\Message::create([
+                        'message' => $user->name.'が参加しました。',
+                        'room_id' => $request->room_id,
+                        'user_id' => 0,
+                        'user_name' => '',
+                        'isNotification' => 1,
             ]);
+
+            //  チャット更新用のイベント
+            event(new MessageCreated($message));
                 
         }
 
