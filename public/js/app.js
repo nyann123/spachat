@@ -11570,8 +11570,7 @@ __webpack_require__.r(__webpack_exports__);
             var _params = {
               message: _this.message,
               room_id: _this.room_id,
-              user_id: user.id,
-              user_name: _this.$store.getters.getUser.name
+              user_id: user.id
             };
             axios.post(_url, _params).then(function (response) {
               // メッセージをクリア
@@ -11811,7 +11810,7 @@ __webpack_require__.r(__webpack_exports__);
         var url = 'ajax/room';
         var params = {
           room_name: this.room_name || this.$store.getters.getUser.name + 'の部屋',
-          user: this.$store.getters.getUser,
+          user_id: this.$store.getters.getUser.id,
           password: this.password || ''
         };
         axios.post(url, params).then(function (response) {

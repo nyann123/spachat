@@ -9,7 +9,7 @@ class UserEntryController extends Controller
 {
     public function create(Request $request) { // ユーザー名を登録
 
-        $data =  \App\User::firstOrCreate([
+        $data =  \App\User::updateOrCreate([
             'id' => $request->user_id
         ],[
             'name' => $request->user_name

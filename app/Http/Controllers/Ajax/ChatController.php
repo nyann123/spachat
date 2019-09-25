@@ -21,6 +21,9 @@ class ChatController extends Controller
         // 現在日時を取得
         $now = Carbon::now();
 
+        //  ユーザーを取得
+        $user = \App\User::find($request->user_id);
+
         //  制限時間内であればメッセージ登録処理
         if(\App\ChatRoom::where('id', $request->room_id)->where('limit_at', '>', $now)->exists()){
 
@@ -28,8 +31,8 @@ class ChatController extends Controller
             $message = \App\Message::create([
                 'message' => $request->message,
                 'room_id' => $request->room_id,
-                'user_id' => $request->user_id,
-                'user_name' => $request->user_name,
+                'user_id' => $user->id,
+                'user_name' => $user->name,
             ]);
 
             //  チャット更新用のイベント

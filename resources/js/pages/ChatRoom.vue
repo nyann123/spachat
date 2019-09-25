@@ -82,7 +82,6 @@ export default {
             const params = {  message: this.message,
                               room_id: this.room_id,
                               user_id: user.id,
-                              user_name: this.$store.getters.getUser.name,
                               };
             axios.post(url, params)
               .then((response) => {

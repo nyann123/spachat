@@ -41,6 +41,9 @@ class RoomController extends Controller
 
     public function create(Request $request){
 
+        //  ユーザーを取得
+        $user = \App\User::find($request->user_id);
+
         //  チャットルームの制限時間
         $limit_time = 24;
 
@@ -52,9 +55,9 @@ class RoomController extends Controller
         }
         
         //  チャットルームを作成
-        $data = \App\ChatRoom::create([
+        $room = \App\ChatRoom::create([
             'room_name' => $request->room_name,
-            'host_user' => $request->user['name'],
+            'host_user' => $user->name,
             'password' => $password,
             'limit_at' => Carbon::now()->addHour($limit_time),
             'created_at' => Carbon::now(),
@@ -64,8 +67,8 @@ class RoomController extends Controller
         //  通知を作成
         \App\Message::create([
             'message' => 'チャットルームを作成しました。
-                        　終了時間は'.$data->limit_at.'です。',
-            'room_id' => $data->id,
+                        　終了時間は'.$room->limit_at.'です。',
+            'room_id' => $room->id,
             'user_id' => 0,
             'user_name' => '',
             'isNotification' => 1,
@@ -73,11 +76,11 @@ class RoomController extends Controller
         
         //  チャットルームを作成したユーザーを入室させる
         \App\EnteredRoom::create([
-            'user_id' => $request->user['id'],
-            'room_id' => $data->id,
+            'user_id' => $user->id,
+            'room_id' => $room->id,
         ]);
 
         //  作成したチャットルームのidを返す
-        return $data->id;
+        return $room->id;
     }
 }

@@ -59,7 +59,7 @@ export default {
 
         const url = 'ajax/room';
         const params = {  room_name: this.room_name || this.$store.getters.getUser.name + 'の部屋',
-                          user: this.$store.getters.getUser,
+                          user_id: this.$store.getters.getUser.id,
                           password: this.password || ''
                           };                
         axios.post(url, params)
