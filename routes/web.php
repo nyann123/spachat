@@ -11,7 +11,7 @@
 |
 */
 
-Route::post('ajax/entry', 'Ajax\UserEntryController@create'); // ユーザー名登録
+Route::post('ajax/entry', 'Ajax\UserEntry'); // ユーザー名登録
 
 Route::get('ajax/chat', 'Ajax\ChatController@index'); // メッセージ一覧を取得
 Route::post('ajax/chat', 'Ajax\ChatController@create'); // チャット登録
