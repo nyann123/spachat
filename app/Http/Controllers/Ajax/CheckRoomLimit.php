@@ -16,11 +16,7 @@ class CheckRoomLimit extends Controller
 
         if(\App\ChatRoom::where('id', $request->room_id)->where('limit_at', '>', $now)->exists()){
             
-            return 0;
-
-        }else{
-
-            return 1;
+            return 'Time expired';
 
         }
 

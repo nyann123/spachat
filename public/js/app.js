@@ -11632,7 +11632,7 @@ __webpack_require__.r(__webpack_exports__);
         room_id: this.room_id
       };
       axios.post(url, params).then(function (response) {
-        if (response.data) {
+        if (!response.data) {
           self.room_timelimit = true;
         }
       });

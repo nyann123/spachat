@@ -140,7 +140,7 @@ export default {
       axios.post(url, params)
         .then((response) => {
 
-          if(response.data){
+          if(!response.data){
             self.room_timelimit = true;
           }
 

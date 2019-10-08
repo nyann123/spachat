@@ -11,9 +11,9 @@ class RoomAuth extends Controller
     public function __invoke(Request $request)
     {
         if (Hash::check($request->password, $request->hash)) {
-            return 1;
-        }else{
-            return 0;
+
+            return 'sucsess';
+            
         }
     }
 }

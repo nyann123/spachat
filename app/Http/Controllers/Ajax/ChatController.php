@@ -40,7 +40,7 @@ class ChatController extends Controller
             
         }else{
 
-            return 1;
+            return 'Time expired';
 
         }
 

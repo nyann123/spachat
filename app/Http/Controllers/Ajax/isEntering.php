@@ -15,9 +15,9 @@ class isEntering extends Controller
                                     ->exists();
 
         if($exists){
-            return 1;
-        }else{
-            return 0;
+
+            return 'sucsess';
+            
         }
 
     }
