@@ -13,13 +13,13 @@ class ChatRoomTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1 ; $i <= 5 ; $i++) {
+        for($i = 3 ; $i >= 1 ; $i--) {
 
             \App\ChatRoom::create([
-                'room_name' => $i .'番目の部屋',
-                'host_user' => $i .'番目のホスト',
+                'room_name' => 'FreeRoom'.$i,
+                'host_user' => 'SpaChat',
                 'password' => '',
-                'limit_at' => Carbon::now()->addDay(),
+                'limit_at' => Carbon::now()->addDay(3650),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now() 
             ]);
