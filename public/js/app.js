@@ -11609,13 +11609,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     //　コンテンツのサイズ調整
     handleResize: function handleResize() {
-      this.content_height = window.innerHeight - 96
+      var size_adjust = 96
       /* form */
-      - 62
+      + 75;
       /* header */
-      - 13
-      /* 調整 */
-      ;
+
+      this.content_height = window.innerHeight - size_adjust;
     },
     //  一番下までスクロール
     scrollToEnd: function scrollToEnd() {
@@ -11999,7 +11998,10 @@ __webpack_require__.r(__webpack_exports__);
     //　コンテンツのサイズ調整
     handleResize: function handleResize() {
       var head_height = this.$el.querySelector(".headar").clientHeight;
-      this.content_height = window.innerHeight - head_height - 75;
+      var size_adjust = 75
+      /* header */
+      ;
+      this.content_height = window.innerHeight - head_height - size_adjust;
     },
     openModal: function openModal() {
       this.modal = true;

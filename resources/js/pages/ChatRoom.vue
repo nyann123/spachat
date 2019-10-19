@@ -121,7 +121,8 @@ export default {
 
     //　コンテンツのサイズ調整
     handleResize() {
-      this.content_height = window.innerHeight -  96/* form */ - 62/* header */ - 13 /* 調整 */;
+      const size_adjust = 96/* form */ + 75/* header */
+      this.content_height = window.innerHeight - size_adjust;
     },
 
     //  一番下までスクロール

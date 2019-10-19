@@ -169,7 +169,8 @@ export default {
     //　コンテンツのサイズ調整
     handleResize() {
       const head_height = this.$el.querySelector(".headar").clientHeight
-      this.content_height = window.innerHeight - head_height - 75;
+      const size_adjust = 75/* header */;
+      this.content_height = window.innerHeight - head_height - size_adjust;
     },
 
     openModal() {
