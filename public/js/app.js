@@ -98286,10 +98286,7 @@ var routes = [{
   component: _pages_Top_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   path: '/',
-  component: _pages_Entry_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-  meta: {
-    isEntry: true
-  }
+  component: _pages_Entry_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   path: '/RoomCreate',
   component: _pages_RoomCreate_vue__WEBPACK_IMPORTED_MODULE_6__["default"]

@@ -25,8 +25,7 @@ const routes = [
   },
   {
     path: '/',
-    component: Entry,
-    meta: {isEntry: true} 
+    component: Entry
   },
   {
     path: '/RoomCreate',
