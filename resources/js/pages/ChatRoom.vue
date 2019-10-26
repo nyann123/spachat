@@ -24,7 +24,7 @@
           <!-- チャット -->
           <div v-else>
             <div class="d-flex" :class="($store.getters.getUser.id === m.user_id ) ? 'justify-content-end' : 'justify-content-start'">
-              <div style="opacity:1; max-width:700px;" class="toast mb-2">
+              <div style="opacity:1; max-width:75%;" class="toast mb-2">
                 <div class="toast-header">
                   <strong class="mr-auto">{{ m.user_name }}</strong>
                   <small class="ml-2">{{ m.created_at | moment("from", "now") }}</small>

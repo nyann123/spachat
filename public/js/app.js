@@ -76240,7 +76240,7 @@ var render = function() {
                         "div",
                         {
                           staticClass: "toast mb-2",
-                          staticStyle: { opacity: "1", "max-width": "700px" }
+                          staticStyle: { opacity: "1", "max-width": "75%" }
                         },
                         [
                           _c("div", { staticClass: "toast-header" }, [
