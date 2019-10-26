@@ -14,7 +14,7 @@ class AddColumnTakenUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('taken')->after('name');
+            $table->string('taken')->after('name')->nullable();
         });
     }
 
