@@ -13,6 +13,7 @@
 
 Route::group(['prefix' => 'ajax' , 'namespace' => 'Ajax'] , function () {
     Route::post('entry', 'UserEntry'); // ユーザー名登録
+    Route::post('userauth', 'UserAuth'); //ユーザー認証
 
     Route::get('chat', 'ChatController@index'); // メッセージ一覧を取得
     Route::post('chat', 'ChatController@create'); // チャット登録

@@ -11693,8 +11693,9 @@ __webpack_require__.r(__webpack_exports__);
             // 成功したらページ移動
             _this.$store.commit({
               type: 'setUser',
-              name: _this.name,
-              id: response.data
+              id: response.data.id,
+              name: response.data.name,
+              taken: response.data.taken
             });
 
             _this.$router.push('Top');
@@ -98297,29 +98298,34 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 router.beforeEach(function (to, from, next) {
   _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false);
-  var user = _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser; //　アクセス制限
-  //  名前が未設定なら設定ページへ
+  var user = _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser; //  ユーザー認証
 
-  if (!user.name || !user.id) {
-    if (to.path !== '/') {
-      next({
-        path: '/'
-      });
-    } else {
-      next();
-    }
-  } else {
-    next();
+  if (user.name) {
+    var url = 'ajax/userauth';
+    var params = {
+      user: user
+    };
+    axios.post(url, params).then(function (response) {
+      if (response.data) {
+        next();
+      } else {
+        if (to.path !== '/') {
+          next('/');
+        } else {
+          next();
+        }
+      }
+    });
   } //  入室した部屋のみ入れるように
 
 
   if (to.params.id) {
-    var url = 'ajax/isEntering';
-    var params = {
+    var _url = 'ajax/isEntering';
+    var _params = {
       user_id: user.id,
       room_id: to.params.id
     };
-    axios.post(url, params).then(function (response) {
+    axios.post(_url, _params).then(function (response) {
       if (response.data) {
         next();
       } else {
@@ -98343,13 +98349,17 @@ router.beforeEach(function (to, from, next) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var state = {
-  loading: true,
-  user: {
-    name: '',
-    id: ''
-  }
+var state = function state() {
+  return {
+    loading: true,
+    user: {
+      id: '',
+      name: '',
+      taken: ''
+    }
+  };
 };
+
 var getters = {
   getLoading: function getLoading(state) {
     return state.loading;
@@ -98370,8 +98380,9 @@ var mutations = {
     state.loading = payload;
   },
   setUser: function setUser(state, payload) {
-    state.user.name = payload.name;
     state.user.id = payload.id;
+    state.user.name = payload.name;
+    state.user.taken = payload.taken;
   }
 };
 var actions = {};

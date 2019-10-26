@@ -1,10 +1,11 @@
-const state = {
+const state = ()=> ({
   loading: true,
   user: {
-    name: '',
     id: '',
+    name: '',
+    taken: '',
   },
-}
+})
 
 const getters = {
   getLoading(state){
@@ -30,8 +31,9 @@ const mutations = {
   },
   
   setUser(state, payload) {
-    state.user.name = payload.name;
     state.user.id = payload.id;
+    state.user.name = payload.name;
+    state.user.taken = payload.taken;
   },
 }
 

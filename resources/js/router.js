@@ -42,18 +42,26 @@ router.beforeEach((to, from, next) => {
   store.commit("setLoading", false);
   const user = store.getters.getUser
 
-  //　アクセス制限
-  //  名前が未設定なら設定ページへ
-  
-  if(!user.name || !user.id){
-    if(to.path !== '/'){
-      next({ path: '/'})
-    }else{
-      next();
-    }
-  }else{
-    next();
+  //  ユーザー認証
+  if(user.name){
+    const url = 'ajax/userauth';
+    const params = { user }
+    axios.post(url, params)
+    .then((response) => {
+
+      if(response.data){
+        next();
+      }else{
+        if(to.path !== '/'){
+          next('/');
+        }else{
+          next();
+        }
+      }
+      
+    });
   }
+
 
   //  入室した部屋のみ入れるように
   if(to.params.id){

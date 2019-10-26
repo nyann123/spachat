@@ -44,7 +44,11 @@ export default {
             .then((response) => {
     
           // 成功したらページ移動
-          this.$store.commit({type:'setUser', name: this.name, id:response.data});
+          this.$store.commit({type:'setUser',
+                              id: response.data.id,
+                              name: response.data.name,
+                              taken: response.data.taken,
+                              });
           this.$router.push('Top');
          });
         }
