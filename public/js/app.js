@@ -98297,7 +98297,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
 });
 router.beforeEach(function (to, from, next) {
-  _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false);
+  _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].commit("setLoading", false); // store.commit('stateInit')
+
   var user = _store_index__WEBPACK_IMPORTED_MODULE_2__["default"].getters.getUser; //  ユーザー認証
 
   if (user.name) {
@@ -98317,7 +98318,11 @@ router.beforeEach(function (to, from, next) {
       }
     });
   } else {
-    next('/');
+    if (to.path !== '/') {
+      next('/');
+    } else {
+      next();
+    }
   } //  入室した部屋のみ入れるように
 
 

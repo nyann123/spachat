@@ -40,6 +40,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   store.commit("setLoading", false);
+  // store.commit('stateInit')
   const user = store.getters.getUser
 
   //  ユーザー認証
@@ -61,7 +62,11 @@ router.beforeEach((to, from, next) => {
       
     });
   }else{
-    next('/');
+    if(to.path !== '/'){
+      next('/');
+    }else{
+      next();
+    }
   }
 
 
