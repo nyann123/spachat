@@ -98316,6 +98316,8 @@ router.beforeEach(function (to, from, next) {
         }
       }
     });
+  } else {
+    next('/');
   } //  入室した部屋のみ入れるように
 
 
